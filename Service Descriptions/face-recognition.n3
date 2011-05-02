@@ -11,8 +11,7 @@
 =>
 {
   _:request http:methodName "GET";
-            tmpl:uri [ tmpl:absoluteURITemplate "http://a.example.org/photos/{photoId}/people/{regionId}";
-                       tmpl:values (?photoId ?regionId) ];
+            tmpl:requestURI ("http://a.example.org/photos/" ?photoId "/people/" ?regionId);
             http:resp [ tmpl:represents ?person ].
   
   ?person foaf:name _:personName.

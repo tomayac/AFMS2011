@@ -10,9 +10,8 @@
 {
   _:request http:methodName "POST";
             http:absoluteURI "http://a.example.org/photos";
-            http:body [ tmpl:formValue ("photo" ?photo) ];
-            http:resp [ tmpl:location [ tmpl:absoluteURITemplate "http://a.example.org/photos/{photoId}";
-                                        tmpl:values (?photoId) ]].
+            http:body [ tmpl:formData ("photo=" ?photo) ];
+            http:resp [ tmpl:location ("http://a.example.org/photos/" ?photoId) ].
   
   ?photo :photoId ?photoId.
 }.
