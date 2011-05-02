@@ -122,6 +122,7 @@
 %%%%%%%%%% abstract %%%%%%%%%%
 
 \begin{abstract}
+%%%% Responsible: THOMAS %%%%
 \todo{
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida fringilla ipsum nec tincidunt. Curabitur fermentum tincidunt semper. Suspendisse at orci quam. Ut risus est, mollis nec placerat et, lacinia sed ligula. Nunc varius felis vitae elit mollis laoreet. Nulla congue, sem id ullamcorper convallis, nibh massa scelerisque elit, at congue purus eros vel metus. Nulla purus turpis, egestas eget vehicula et, blandit in nibh. Mauris id sapien velit, in viverra neque. In hac habitasse platea dictumst. Phasellus at ante vitae lectus scelerisque gravida. Curabitur bibendum, libero non interdum rhoncus, diam ante volutpat lorem, a volutpat ante mauris vel nisi. Donec nisi felis, rhoncus et suscipit sit amet, porta eget felis. Maecenas aliquam interdum elit, sed fringilla lorem fringilla non.
 In hac habitasse platea dictumst. Sed blandit diam sed sem dignissim in aliquet massa consequat. Integer aliquam congue justo a rhoncus. Sed sit amet interdum eros. Nunc aliquam, nisl vitae pulvinar posuere, odio justo malesuada nunc, non sodales tellus diam quis purus. Aenean sed neque quis dui ultricies cursus a vitae orci. Nulla facilisi. Nulla lacus nisl, cursus at vehicula ac, malesuada non est.}
@@ -131,6 +132,7 @@ In hac habitasse platea dictumst. Sed blandit diam sed sem dignissim in aliquet 
 %%%%%%%%%% body %%%%%%%%%%
 
 \section{Introduction}
+%%%% Responsible: RUBEN %%%%
 The immense diversity of various multimedia analysis and processing algorithms makes it difficult to integrate them in an automated platform to perform compound tasks. Yet, recent research has indicated the importance of the fusion of different techniques~\cite{Atrey:2010p3072}. But how can different algorithms interoperate, if there are no agreements or guidelines on how communication should happen? And how can a coordinating platform select algorithms based on their capabilities, in lack of a formal description detailing their preconditions and postconditions?
 
 In this paper, we show how to lift multimedia algorithms to the level of Semantic Web services with a formal description mechanism that follows a pragmatic approach. Rather than reinventing the existing methodologies, which focus on low-level details, we want to express an algorithm's functionality in way that captures its functionality without requiring lengthy specifications. Our intention is to use established standards and reuse common best practices for implementing multimedia algorithms as true Semantic Web services. The aim is a versatile description and communication model, enabling fully automated service discovery and execution, even under changing conditions. The sole starting point is a Web address of a server---all other information is gathered at runtime.
@@ -139,6 +141,7 @@ We will explain our approach by three real-world multimedia use cases, each of w
 
 
 \section{Related Work}
+%%%% Responsible: THOMAS %%%%
 \subsection{Web Service Description Language}
 The description of Web services has a long history. The XML-based Web Service Description Language~(WSDL, \cite{WSDL1, WSDL2}) provided one of the first models. WSDL focuses on the communicational aspect of Web services, looking from a message-oriented point of view. The details of the message format are written down in a very verbose way and concretized to actual bindings such as SOAP~\cite{SOAP} or plain HTTP~\cite{HTTP}. Finally, the description can contain endpoints which implement the specified bindings.
 
@@ -172,14 +175,22 @@ Unfortunately, there is no obligation to use these conditions and the \owls\ sub
 
 Furthermore, while \owls\ offers functional descriptions capable of automatic discovery of the capabilities of a single service, it does not provide mechanisms to express its relation to other services. Also, descriptions contain redundancies and require a fair amount of vocabulary, even to express conceptually simple services, and rely on external groundings for technical implementations.
 
+\subsection{SAWSDL}
+\todo{Thomas}
+
 
 \section{RESTful Multimedia Services}
 \label{RESTfulServices}
+%%%% Responsible: THOMAS %%%%
 \todo{Describing what a RESTful way would be to access multimedia algorithms. By treating their inputs and outputs as resources, instead of invoking commands.}
 
 
 \section{RESTdesc Semantic Description}
 \label{RESTdesc}
+%%%% Responsible: RUBEN %%%%
+\subsection{\todo{Why do we need it?}}
+\todo{Thomas}
+
 \subsection{Simple yet functional description}
 \todo{Sketch the RESTdesc format, what it does, why it is simple yet fully functional.}
 
@@ -276,30 +287,42 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 \subsection{Automated interpretation and composition}
 \todo{Tell why RESTdesc is ideal for composition.}
 
+\subsection{\todo{Concrete example}}
+\label{CompositionExample}
+
 \subsection{Compatibility and automatic translation}
 \todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
 
+\clearpage
+
 
 \section{RESTdesc Service Discovery}
+%%%% Responsible: THOMAS %%%%
+\subsection{\todo{Theory}}
 \todo{While the previous section introduced the RESTdesc description format, this section details how we can start with a single URI and learn everything about the server.}
 
-
-\section{Real-world Use Cases}
-\subsection{Automated discovery, composition, and execution}
-This use case presents an overview of the general architecture of RESTdesc for multimedia algorithms.
-\\*\todo{See Google Docs.}
-
-\subsection{Linking to external services}
-\todo{See Google Docs.}
+\subsection{\todo{Google Docs story 1}}
+\todo{The details of the service composition will have been handled in \ref{CompositionExample}.}
 
 
-\subsection{Adapting to change and errors}
-\todo{See Google Docs.}
+\section{Linking with external services}
+%%%% Responsible: none yet %%%%
+\subsection{\todo{Theory}}
+\subsection{\todo{Google Docs story 2}}
+
+
+\section{Adapting to change and errors}
+%%%% Responsible: none yet %%%%
+\subsection{\todo{Theory}}
+\subsection{\todo{Google Docs story 2}}
+
 
 \section{Conclusion}
-\todo{See Google Docs.}
+%%%% Responsible: none yet %%%%
 
 
+\section*{Acknowledgements}
+\todo{Thank Niklas Lindstr\"om}
 
 % back to Computer Modern for URLs in bibliography
 \renewcommand{\ttdefault}{cmvtt}
