@@ -1,0 +1,310 @@
+\documentclass[runningheads,a4paper, twocolumn]{llncs}
+
+%%%%%%%%%% preamble %%%%%%%%%%
+
+% margins
+\usepackage[left=1.8cm, right=1.8cm, top=2.54cm, bottom=2.54cm]{geometry}
+
+% autoref command
+\usepackage[pdftex,urlcolor=black,colorlinks=true,linkcolor=black,citecolor=black]{hyperref}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Subsection}
+\def\figureautorefname{Fig.}
+\def\subfigureautorefname{Fig.}
+
+% listings and Verbatim environment
+\usepackage{fancyvrb}
+\RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\footnotesize}
+\usepackage{listings}
+\lstloadlanguages{SPARQL} 
+\lstdefinelanguage{RDF}{morekeywords=@prefix}
+\lstset{frame=lines,captionpos=b,numberbychapter=false,
+        aboveskip=0em,belowskip=.5em,abovecaptionskip=.5em,belowcaptionskip=0em,
+        basicstyle=\ttfamily\fontsize{7pt}{8.5pt}\selectfont,stringstyle=\em,showstringspaces=false}
+
+% abstract keywords
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+% todo macro
+\usepackage{color}
+\newcommand{\todo}[1]{\noindent\textcolor{red}{{\bf \{TODO} #1{\bf \}}}}
+
+% references
+\usepackage{cite}
+
+% inclusion of graphics and PDF documents
+\usepackage[pdftex]{graphicx}
+\usepackage[final]{pdfpages}
+\usepackage[bf,small]{subfigure}
+\setlength{\floatsep}{1em}
+\setlength{\dblfloatsep}{1em}
+\setlength{\textfloatsep}{1em}
+\setlength{\dbltextfloatsep}{1em}
+\setlength{\belowcaptionskip}{-1em}
+
+% better typography
+\usepackage[tracking, spacing, kerning]{microtype}
+
+% drawings
+\usepackage{tikz}
+\usepackage{tkz-graph}
+\usetikzlibrary{matrix,arrows,decorations.pathmorphing,shapes}
+
+\newcommand{\bulletnumber}[1]{%
+   \tikz[baseline=-2.5]%
+   \node[circle,text=white,fill=gray,anchor=west,inner sep=1pt] {\rm #1};%
+}
+
+% algorithm typesetting
+\usepackage[small,bf]{caption}
+\usepackage{algorithmic}
+\usepackage{float}
+\newfloat{algorithm}{tpbh}{}
+\floatname{algorithm}{Algorithm}
+\def\algorithmautorefname{Algorithm}
+\newcommand{\algorithmtop}{\rule{\columnwidth}{.4pt}\vspace{-1.3em}}
+\newcommand{\algorithmbottom}{\vspace{-0.6em}\rule{\columnwidth}{.4pt}\vspace{-0.6em}}
+
+% abstract
+\renewenvironment{abstract}{\section*{\makebox[3.5cm]{}Abstract}}
+
+% lay-out
+\usepackage{needspace}
+
+% conditionals
+\usepackage{ifthen}
+\provideboolean{showauthors}
+\setboolean{showauthors}{false}
+
+
+% make sure that OWL-S does not get hyphenated
+\newcommand{\owls}{\mbox{OWL-S}}
+
+
+%%%%%%%%%% document %%%%%%%%%%
+
+\begin{document}
+% For every picture that defines or uses external nodes, you'll have to
+% apply the 'remember picture' style. To avoid some typing, we'll apply
+% the style to all pictures.
+\tikzstyle{every picture}+=[remember picture]
+
+\mainmatter
+
+
+%%%%%%%%%% title %%%%%%%%%%
+
+\title{Description and Interaction of RESTful Multimedia Services for~Automatic Discovery and Execution}
+\ifthenelse{\boolean{showauthors}}
+{\author{Ruben Verborgh$^{1}$ \and Thomas Steiner$^{2}$ \and Rik Van de Walle$^{1}$}
+\institute{Ghent University -- IBBT, ELIS -- Multimedia Lab\\Gaston Crommenlaan 8 bus 201, B-9050 Ledeberg-Ghent, Belgium\\
+\urldef{\emails}\path|{ruben.verborgh,rik.vandewalle}@ugent.be|\emails\\
+\url{http://multimedialab.elis.ugent.be/}
+\and Universitat Polit\'ecnica de Catalunya -- Department LSI\\
+08034 Barcelona, Spain\\
+\urldef{\emails}\path|tsteiner@lsi.upc.edu|\emails\\
+\url{http://www.lsi.upc.edu/}
+}}
+{\author{\institute{}\vspace{3.5cm}}}
+
+\twocolumn[
+  \begin{@twocolumnfalse}
+    \maketitle
+  \end{@twocolumnfalse}
+  ]
+
+
+% use Courier from this point onward (used CM for author e-mails)
+\renewcommand{\ttdefault}{pcr}
+
+
+%%%%%%%%%% abstract %%%%%%%%%%
+
+\begin{abstract}
+\todo{
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida fringilla ipsum nec tincidunt. Curabitur fermentum tincidunt semper. Suspendisse at orci quam. Ut risus est, mollis nec placerat et, lacinia sed ligula. Nunc varius felis vitae elit mollis laoreet. Nulla congue, sem id ullamcorper convallis, nibh massa scelerisque elit, at congue purus eros vel metus. Nulla purus turpis, egestas eget vehicula et, blandit in nibh. Mauris id sapien velit, in viverra neque. In hac habitasse platea dictumst. Phasellus at ante vitae lectus scelerisque gravida. Curabitur bibendum, libero non interdum rhoncus, diam ante volutpat lorem, a volutpat ante mauris vel nisi. Donec nisi felis, rhoncus et suscipit sit amet, porta eget felis. Maecenas aliquam interdum elit, sed fringilla lorem fringilla non.
+In hac habitasse platea dictumst. Sed blandit diam sed sem dignissim in aliquet massa consequat. Integer aliquam congue justo a rhoncus. Sed sit amet interdum eros. Nunc aliquam, nisl vitae pulvinar posuere, odio justo malesuada nunc, non sodales tellus diam quis purus. Aenean sed neque quis dui ultricies cursus a vitae orci. Nulla facilisi. Nulla lacus nisl, cursus at vehicula ac, malesuada non est.}
+\end{abstract}
+
+
+%%%%%%%%%% body %%%%%%%%%%
+
+\section{Introduction}
+The immense diversity of various multimedia analysis and processing algorithms makes it difficult to integrate them in an automated platform to perform compound tasks. Yet, recent research has indicated the importance of the fusion of different techniques~\cite{Atrey:2010p3072}. But how can different algorithms interoperate, if there are no agreements or guidelines on how communication should happen? And how can a coordinating platform select algorithms based on their capabilities, in lack of a formal description detailing their preconditions and postconditions?
+
+In this paper, we show how to lift multimedia algorithms to the level of Semantic Web services with a formal description mechanism that follows a pragmatic approach. Rather than reinventing the existing methodologies, which focus on low-level details, we want to express an algorithm's functionality in way that captures its functionality without requiring lengthy specifications. Our intention is to use established standards and reuse common best practices for implementing multimedia algorithms as true Semantic Web services. The aim is a versatile description and communication model, enabling fully automated service discovery and execution, even under changing conditions. The sole starting point is a Web address of a server---all other information is gathered at runtime.
+
+We will explain our approach by three real-world multimedia use cases, each of which represents challenges that are currently not fully addressed by alternative techniques. They will illustrate the power of our method and hopefully convince the reader that its apparent simplicity accommodates far-reaching possibilities.
+
+
+\section{Related Work}
+\subsection{Web Service Description Language}
+The description of Web services has a long history. The XML-based Web Service Description Language~(WSDL, \cite{WSDL1, WSDL2}) provided one of the first models. WSDL focuses on the communicational aspect of Web services, looking from a message-oriented point of view. The details of the message format are written down in a very verbose way and concretized to actual bindings such as SOAP~\cite{SOAP} or plain HTTP~\cite{HTTP}. Finally, the description can contain endpoints which implement the specified bindings.
+
+For our use case, we spot two major problems with the use of WSDL. First, WSDL only provides the mechanisms to characterize the technical implementation of Web services. It does not provide the means to capture the functionality of a service. For example, a service that counts the number of words in a text will be described by WSDL as an interface which accepts a string and outputs an integer. Clearly, an infinite number of algorithms share those input and output properties, so this information is insufficient to infer any meaning or functionality.
+
+Secondly, in practice, a WSDL description is used to generate module source code automatically, which is then compiled into a larger program. If the description changes, the program no longer works, even if such a change leaves the functionality intact. \todo{Thomas, can we cite a reference here?} So WSDL is not well adapted to real-world circumstantial changes.
+
+The above problems indicate why WSDL cannot offer automatic service discovery at runtime and why we should investigate other possibilities.
+
+\subsection{Web Application Description Language}
+The Web Application Description Language~(WADL, \cite{WADL}), which is also XML-based, is another Web service description format, which advocates proper use of all the aspects of the HTTP protocol, instead of its degradation to a tunneling mechanism as in SOAP. Services that behave in this way are called RESTful~\cite{FieldingREST}, the properties of which we will explain in \autoref{RESTfulServices}. While WSDL~2.0 is also capable of specifying bindings to RESTful endpoints, it still requires the abstractions that enable bindings to SOAP and others. WADL, on the other hand, was tailored to the needs of RESTful services, but only exists as a W3C Member Submission and will most likely never reach the W3C Recommendation status of WSDL~2.0~\cite{WADLTeamComment}.
+
+However, WADL still suffers from the same problem: it does emphasize the technical properties of the underlying service and does not leave any room for the semantics of the task it performs. This also means that there is no way to automatically discover services based on the desired functionality. Therefore, there is no reason why WADL would be used any differently than WSDL, as also argued by Joe Gregorio in~\cite{GregorioWADL}.
+
+\todo{Thomas, given the experience you have with WADL, you can probably ameliorate this section and/or add your views and/or correct mine :) }
+
+\todo{However, I would think that WADL can be interesting when a certain amount of detail is required.\\
+So why don't we output add a \Verb!Link! header to a WADL description (or WSDL, or whatever, just to be generic) on HTTP \Verb!OPTIONS!?\\
+Could it be possible {\em in theory} to generate a WADL description from RESTdesc (given the description and the use of RESTful practices)?}
+
+
+\subsection{Semantic Markup for Web Services}
+
+\owls~\cite{OWLS} is a an OWL~\cite{OWL} ontology for describing Semantic Web services in RDF~\cite{RDF}. A service description consists of three parts: a profile, a model and a grounding. Some aspects of profile and model are very similar, in the sense that they both describe input, output, preconditions and effects. The difference is that the profile is used for discovery, while the model is used to control the interaction.
+
+Here, for the first time, we have an actual focus on the functionality of a service which is separate from how the interaction happens. However, whether this separation was successful is debatable, since there is no way to enforce the consistency of profile and model of a single service. Finally, the grounding part specifies the implementation of the service. The \owls\ submission defines a grounding to WSDL, but other groundings are possible (e.g.,~\cite{Verborgh:2010p2746}). This means that the \owls\ description describes the functionality, whereas its grounding describes the communication.
+
+At least, this is what it is supposed to do. \owls\ input and output types provide more or less the equivalent of what a WSDL message format contains, albeit with RDF types, so there is only a minimal added semantic value on that level. The real possibilities lie in the use of preconditions and postconditions (the latter under the form of result effects), which allow to express complex relationships between input and output values, finally capturing the semantics and functionality of the service.
+
+Unfortunately, there is no obligation to use these conditions and the \owls\ submission only mentions the rule languages KIF~\cite{KIF}, DRS~\cite{DRS} and SWRL~\cite{SWRL}, in order of increasing verbosity. Extensions to more light-weight rule languages, such as Notation3 Logic~\cite{N3Logic}, are possible~\cite{Verborgh:2010p2746}. The real problem here is that that none of those languages are integrated into the main service description, but rather form subdocuments within it, which require a separate interpretation. The conditions thus live in another context, which are solely linked by identifiers but not by semantics. As a result, agents lacking support for the used rule language could parse the \owls\ constructs in a service description document and skip the parts they fail to understand---effectively ignoring important conditions they should reckon with\footnote{This behavior resembles that of Web browsers without JavaScript support: they parse and render HTML but ignore any \Verb!script! tags. Service descriptions, in contrast, {\em always} require a full interpretation for correct functionality.}.
+
+Furthermore, while \owls\ offers functional descriptions capable of automatic discovery of the capabilities of a single service, it does not provide mechanisms to express its relation to other services. Also, descriptions contain redundancies and require a fair amount of vocabulary, even to express conceptually simple services, and rely on external groundings for technical implementations.
+
+
+\section{RESTful Multimedia Services}
+\label{RESTfulServices}
+\todo{Describing what a RESTful way would be to access multimedia algorithms. By treating their inputs and outputs as resources, instead of invoking commands.}
+
+
+\section{RESTdesc Semantic Description}
+\label{RESTdesc}
+\subsection{Simple yet functional description}
+\todo{Sketch the RESTdesc format, what it does, why it is simple yet fully functional.}
+
+\todo{Emphasize that RESTdesc = REST + description, e.g., that RESTful practices are a requirement.}
+
+\todo{Avoid critique on the use of Notation3 Logic. Mention Tim BL etc.}
+
+% In ..., Steiner and Algermissen hint at... (Section 5, use of semantic identifier for youtube video)
+% We present a generalized approach...
+
+\begin{lstlisting}[caption=RESTdesc description of photo retrieval,
+                   label=lst:PhotoGet, float, escapechar=\%]
+@prefix : <http://example.org/ontology#>.
+@prefix http: <http://www.w3.org/2006/http#>.
+@prefix tmpl: <http://purl.org/restdesc/http-template#>.
+@prefix foaf: <http://xmlns.com/foaf/>.
+
+{ ?photo :photoId ?id. }
+=>
+{
+  _:request http:methodName "GET";
+            tmpl:absoluteURITemplate
+                "http://example.org/photos/{photoId}";
+            tmpl:uriTemplateValues (?id);
+            http:resp [ tmpl:represents ?photo ].
+}.
+\end{lstlisting}
+
+\begin{lstlisting}[caption=\autoref{lst:PhotoGet} with explicit quantifiers,
+                   label=lst:PhotoGetQuantifiers, float, escapechar=\%]
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+%\textbf{@forall :photo, :id.}%          # %\it $\forall$ photo, id $:$%
+%\textbf{@forsome :request, :response.}%
+{ :photo :photoId :id. }      # %\it photoId$($photo$, $id$)$ %
+%\textbf{log:implies}%                   # %\it $\Rightarrow \exists$ request$, $r : resp$($request$, $r$)$%
+{                             #    %\it $\land$ represents$($r$, $photo$)$ \textcolor{gray}{\rm{[\ldots]}}%
+  :request %\textcolor{gray}{\rm{[\ldots]}}% http:resp :response.
+  :response tmpl:represents :photo.
+}.
+\end{lstlisting}
+
+\begin{lstlisting}[caption=RESTdesc description of photo upload,
+                   label=lst:PhotoUpload, float, escapechar=\%]
+{ ?photo a foaf:Image. }
+=>
+{
+  _:request http:methodName "POST";
+            http:absoluteURI "http://example.org/photos";
+            http:body [ tmpl:formValue ("photo" ?photo) ];
+            http:resp [ tmpl:represents ?photo ].
+
+  ?photo :photoId _:photoId.
+}.
+\end{lstlisting}
+
+\begin{lstlisting}[caption=RESTdesc description of face detection,
+                   label=lst:FaceDetection, float, escapechar=\%]
+{ ?photo :photoId ?photoId. }
+=>
+{
+  _:request http:methodName "GET";
+            tmpl:absoluteURITemplate
+  "http://example.org/photos/{photoId}/faces";
+            tmpl:uriTemplateValues (?photoId);
+            http:resp [ tmpl:representsMultiple ?region ].
+  
+  ?region foaf:depicts [ a foaf:Person ];
+          :regionId _:regionId;
+          :belongsTo ?photo.
+}.
+\end{lstlisting}
+
+\begin{lstlisting}[caption=RESTdesc description of face recognition,
+                   label=lst:FaceRecognition, float, escapechar=\%, belowskip=-1em]
+{
+  _:region foaf:depicts ?person;
+           :regionId ?regionId;
+           :belongsTo [:photoId ?photoId].
+}
+=>
+{
+  _:request http:methodName "GET";
+            tmpl:absoluteURITemplate
+  "http://example.org/photos/{photoId}/people/{regionId}";
+            tmpl:uriTemplateValues (?photoId ?regionId);
+            http:resp [ tmpl:represents ?person ].
+  
+  ?person foaf:name _:personName.
+}.
+\end{lstlisting}
+
+
+\subsection{Automated interpretation and composition}
+\todo{Tell why RESTdesc is ideal for composition.}
+
+\subsection{Compatibility and automatic translation}
+\todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
+
+
+\section{RESTdesc Service Discovery}
+\todo{While the previous section introduced the RESTdesc description format, this section details how we can start with a single URI and learn everything about the server.}
+
+
+\section{Real-world Use Cases}
+\subsection{Automated discovery, composition, and execution}
+This use case presents an overview of the general architecture of RESTdesc for multimedia algorithms.
+\\*\todo{See Google Docs.}
+
+\subsection{Linking to external services}
+\todo{See Google Docs.}
+
+
+\subsection{Adapting to change and errors}
+\todo{See Google Docs.}
+
+\section{Conclusion}
+\todo{See Google Docs.}
+
+
+
+% back to Computer Modern for URLs in bibliography
+\renewcommand{\ttdefault}{cmvtt}
+
+\bibliographystyle{splncs03}
+\bibliography{AFMS2011}
+
+\end{document}  

@@ -1,0 +1,86 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+
+\bibitem{Atrey:2010p3072}
+Atrey, P., Hossain, M., El~Saddik, A., S~Kankanhalli, M.: {Multimodal fusion
+  for multimedia analysis: a survey}. Multimedia Systems  (2010),
+  \url{http://www.springerlink.com/index/E31M71152774R630.pdf}
+
+\bibitem{N3Logic}
+Berners-Lee, T., Connolly, D., Kagal, L., Scharf, Y., Hendler, J.: {N3Logic}: A
+  logical framework for the {World Wide Web}. Theory and Practice of Logic
+  Programming  8(3),  249--269 (2008)
+
+\bibitem{WSDL2}
+Chinnici, R., Moreau, J.J., Ryman, A., Weerawarana, S.: {Web Services
+  Description Language (WSDL) Version 2.0 Part 1: Core Language}. W3C
+  Recommendation (Jun 2007), \url{http://xml.coverpages.org/wsdl20000929.html}
+
+\bibitem{WSDL1}
+Christensen, E., Curbera, F., Meredith, G., Weerawarana, S.: {Web Services
+  Description Language (WSDL) 1.0} (Sep 2000),
+  \url{http://xml.coverpages.org/wsdl20000929.html}
+
+\bibitem{HTTP}
+Fielding, R., Gettys, J., Mogul, J., Frystyk, H., Masinter, L., Leach, P.,
+  Berners-Lee, T.: {Hypertext Transfer Protocol -- HTTP/1.1}. Request for
+  Comments: 2616 (Jun 1999), \url{http://www.ietf.org/rfc/rfc2616.txt}
+
+\bibitem{FieldingREST}
+Fielding, R.T., Taylor, R.N.: {Principled design of the modern Web
+  architecture}. ACM Transactions on Internet Technology  2(2),  115--150 (May
+  2002), \url{http://dx.doi.org/10.1145/514183.514185}
+
+\bibitem{KIF}
+Generereth, M.R.: Knowledge interchange format. Draft Proposed American
+  National Standard, \url{http://logic.stanford.edu/kif/dpans.html}
+
+\bibitem{GregorioWADL}
+Gregorio, J.: {Do we need WADL?} (Jun 2007),
+  \url{http://bitworking.org/news/193/Do-we-need-WADL}
+
+\bibitem{SOAP}
+Gudgin, M., Hadley, M., Mendelsohn, N., Moreau, J.J.: Soap version 1.2 part 1:
+  Messaging framework (second edition). W3C Recommendation (Apr 2007),
+  \url{http://www.w3.org/TR/2007/REC-soap12-part1-20070427/}
+
+\bibitem{WADL}
+Hadley, M.: {Web Application Description Language}. W3C Member Submission (Aug
+  2009), \url{http://www.w3.org/Submission/wadl/}
+
+\bibitem{SWRL}
+Horrocks, I., Patel-Schneider, P.F., Boley, H., Tabet, S.: Swrl: A {Semantic
+  Web} rule language combining {OWL} and {RuleML}. W3C Member Submission (May
+  2004), \url{http://www.w3.org/Submission/SWRL/}
+
+\bibitem{RDF}
+Klyne, G., Carrol, J.J.: Resource description framework ({RDF}): Concepts and
+  abstract syntax. W3C Recommendation (Feb 2004), \url{http://www.w3.org/
+  TR/2004/REC-rdf-concepts-20040210/}
+
+\bibitem{WADLTeamComment}
+Lafon, Y.: {Team Comment on the "Web Application Description Language"
+  Submission} (Oct 2009), \url{http://www.w3.org/Submission/2009/03/Comment}
+
+\bibitem{OWLS}
+Martin, D., Burstein, M., Hobbs, J., Lassila, O.: {OWL-S: Semantic Markup for
+  Web Services}. W3C Member Submission (Nov 2004),
+  \url{http://www.w3.org/Submission/OWL-S/}
+
+\bibitem{DRS}
+McDermott, D.: {DRS: A Set of Conventions for Representing Logical Languages in
+  RDF} (Jan 2004), \url{http://cs-www.cs.yale.edu/homes/dvm/daml/DRSguide.pdf}
+
+\bibitem{OWL}
+McGuinness, D.L., van Harmelen, F.: Owl web ontology language overview. W3C
+  Recommendation (Feb 2004),
+  \url{http://www.w3.org/TR/2004/REC-owl-features-20040210/}
+
+\bibitem{Verborgh:2010p2746}
+Verborgh, R., Van~Deursen, D., De~Roo, J., Mannens, E., Van~de Walle, R.:
+  {SPARQL Endpoints as Front-end for Multimedia Processing Algorithms}.
+  Proceedings of the Fourth International Workshop on Service Matchmaking and
+  Resource Retrieval in the Semantic Web (SMR2 2010)  (nov 2010)
+
+\end{thebibliography}

@@ -1,0 +1,73 @@
+This is BibTeX, Version 0.99d (TeX Live 2010)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: AFMS2011.aux
+The style file: splncs03.bst
+Database file #1: AFMS2011.bib
+Warning--entry type for "RDF" isn't style-file defined
+--line 98 of file AFMS2011.bib
+Warning--entry type for "OWL" isn't style-file defined
+--line 118 of file AFMS2011.bib
+Warning--entry type for "SOAP" isn't style-file defined
+--line 137 of file AFMS2011.bib
+Warning--entry type for "WSDL1" isn't style-file defined
+--line 167 of file AFMS2011.bib
+Warning--entry type for "WSDL2" isn't style-file defined
+--line 176 of file AFMS2011.bib
+Warning--entry type for "OwlS" isn't style-file defined
+--line 186 of file AFMS2011.bib
+Warning--entry type for "WADL" isn't style-file defined
+--line 196 of file AFMS2011.bib
+Warning--entry type for "WADLTeamComment" isn't style-file defined
+--line 206 of file AFMS2011.bib
+Warning--entry type for "GregorioWADL" isn't style-file defined
+--line 214 of file AFMS2011.bib
+Warning--entry type for "KIF" isn't style-file defined
+--line 222 of file AFMS2011.bib
+Warning--entry type for "SWRL" isn't style-file defined
+--line 229 of file AFMS2011.bib
+Warning--entry type for "DRS" isn't style-file defined
+--line 239 of file AFMS2011.bib
+Warning--entry type for "HTTP" isn't style-file defined
+--line 266 of file AFMS2011.bib
+You've used 17 entries,
+            2785 wiz_defined-function locations,
+            686 strings with 7480 characters,
+and the built_in function-call counts, 8014 in all, are:
+= -- 617
+> -- 294
+< -- 4
++ -- 121
+- -- 104
+* -- 541
+:= -- 1068
+add.period$ -- 13
+call.type$ -- 17
+change.case$ -- 103
+chr.to.int$ -- 0
+cite$ -- 17
+duplicate$ -- 688
+empty$ -- 756
+format.name$ -- 116
+if$ -- 1696
+int.to.chr$ -- 0
+int.to.str$ -- 17
+missing$ -- 132
+newline$ -- 56
+num.names$ -- 34
+pop$ -- 303
+preamble$ -- 1
+purify$ -- 86
+quote$ -- 0
+skip$ -- 153
+stack$ -- 0
+substring$ -- 411
+swap$ -- 354
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 68
+warning$ -- 0
+while$ -- 56
+width$ -- 19
+write$ -- 165
+(There were 13 warnings)
