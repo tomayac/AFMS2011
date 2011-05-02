@@ -1,0 +1,5 @@
+Thomas:
+  - implement HTTP OPTIONS
+
+Ruben:
+  - (start to) engineer Referrer thing

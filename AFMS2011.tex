@@ -75,7 +75,7 @@
 % conditionals
 \usepackage{ifthen}
 \provideboolean{showauthors}
-\setboolean{showauthors}{false}
+\setboolean{showauthors}{true}
 
 
 % make sure that OWL-S does not get hyphenated
@@ -97,7 +97,7 @@
 
 \title{Description and Interaction of RESTful Multimedia Services for~Automatic Discovery and Execution}
 \ifthenelse{\boolean{showauthors}}
-{\author{Ruben Verborgh$^{1}$ \and Thomas Steiner$^{2}$ \and Rik Van de Walle$^{1}$}
+{\author{Ruben Verborgh$^{1}$ \and Thomas Steiner$^{2}$ \and Rik Van de Walle$^{1}$ \and Joaquim Gabarr\'{o} Vall\'{e}s$^{2}$}
 \institute{Ghent University -- IBBT, ELIS -- Multimedia Lab\\Gaston Crommenlaan 8 bus 201, B-9050 Ledeberg-Ghent, Belgium\\
 \urldef{\emails}\path|{ruben.verborgh,rik.vandewalle}@ugent.be|\emails\\
 \url{http://multimedialab.elis.ugent.be/}
@@ -106,8 +106,6 @@
 \urldef{\emails}\path|tsteiner@lsi.upc.edu|\emails\\
 \url{http://www.lsi.upc.edu/}
 }}
-
-Joaquim Gabarr\'{o} Vall\'{e}s
 
 {\author{\institute{}\vspace{3.5cm}}}
 
@@ -125,6 +123,7 @@ Joaquim Gabarr\'{o} Vall\'{e}s
 %%%%%%%%%% abstract %%%%%%%%%%
 
 \begin{abstract}
+%%%% Responsible: THOMAS %%%%
 \todo{
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida fringilla ipsum nec tincidunt. Curabitur fermentum tincidunt semper. Suspendisse at orci quam. Ut risus est, mollis nec placerat et, lacinia sed ligula. Nunc varius felis vitae elit mollis laoreet. Nulla congue, sem id ullamcorper convallis, nibh massa scelerisque elit, at congue purus eros vel metus. Nulla purus turpis, egestas eget vehicula et, blandit in nibh. Mauris id sapien velit, in viverra neque. In hac habitasse platea dictumst. Phasellus at ante vitae lectus scelerisque gravida. Curabitur bibendum, libero non interdum rhoncus, diam ante volutpat lorem, a volutpat ante mauris vel nisi. Donec nisi felis, rhoncus et suscipit sit amet, porta eget felis. Maecenas aliquam interdum elit, sed fringilla lorem fringilla non.
 In hac habitasse platea dictumst. Sed blandit diam sed sem dignissim in aliquet massa consequat. Integer aliquam congue justo a rhoncus. Sed sit amet interdum eros. Nunc aliquam, nisl vitae pulvinar posuere, odio justo malesuada nunc, non sodales tellus diam quis purus. Aenean sed neque quis dui ultricies cursus a vitae orci. Nulla facilisi. Nulla lacus nisl, cursus at vehicula ac, malesuada non est.}
@@ -134,6 +133,7 @@ In hac habitasse platea dictumst. Sed blandit diam sed sem dignissim in aliquet 
 %%%%%%%%%% body %%%%%%%%%%
 
 \section{Introduction}
+%%%% Responsible: RUBEN %%%%
 The immense diversity of various multimedia analysis and processing algorithms makes it difficult to integrate them in an automated platform to perform compound tasks. Yet, recent research has indicated the importance of the fusion of different techniques~\cite{Atrey:2010p3072}. But how can different algorithms interoperate, if there are no agreements or guidelines on how communication should happen? And how can a coordinating platform select algorithms based on their capabilities, in lack of a formal description detailing their preconditions and postconditions?
 
 In this paper, we show how to lift multimedia algorithms to the level of Semantic Web services with a formal description mechanism that follows a pragmatic approach. Rather than reinventing the existing methodologies, which focus on low-level details, we want to express an algorithm's functionality in way that captures its functionality without requiring lengthy specifications. Our intention is to use established standards and reuse common best practices for implementing multimedia algorithms as true Semantic Web services. The aim is a versatile description and communication model, enabling fully automated service discovery and execution, even under changing conditions. The sole starting point is a Web address of a server---all other information is gathered at runtime.
@@ -142,6 +142,7 @@ We will explain our approach by three real-world multimedia use cases, each of w
 
 
 \section{Related Work}
+%%%% Responsible: THOMAS %%%%
 \subsection{Web Service Description Language}
 The description of Web services has a long history. The XML-based Web Service Description Language~(WSDL, \cite{WSDL1, WSDL2}) provided one of the first models. WSDL focuses on the communicational aspect of Web services, looking from a message-oriented point of view. The details of the message format are written down in a very verbose way and concretized to actual bindings such as SOAP~\cite{SOAP} or plain HTTP~\cite{HTTP}. Finally, the description can contain endpoints which implement the specified bindings.
 
@@ -150,6 +151,9 @@ For our use case, we spot two major problems with the use of WSDL. First, WSDL o
 Secondly, in practice, a WSDL description is used to generate module source code automatically, which is then compiled into a larger program. If the description changes, the program no longer works, even if such a change leaves the functionality intact. \todo{Thomas, can we cite a reference here?} So WSDL is not well adapted to real-world circumstantial changes.
 
 The above problems indicate why WSDL cannot offer automatic service discovery at runtime and why we should investigate other possibilities.
+
+\subsection{SAWSDL}
+\todo{Thomas}
 
 \subsection{Web Application Description Language}
 The Web Application Description Language~(WADL, \cite{WADL}), which is also XML-based, is another Web service description format, which advocates proper use of all the aspects of the HTTP protocol, instead of its degradation to a tunneling mechanism as in SOAP. Services that behave in this way are called RESTful~\cite{FieldingREST}, the properties of which we will explain in \autoref{RESTfulServices}. While WSDL~2.0 is also capable of specifying bindings to RESTful endpoints, it still requires the abstractions that enable bindings to SOAP and others. WADL, on the other hand, was tailored to the needs of RESTful services, but only exists as a W3C Member Submission and will most likely never reach the W3C Recommendation status of WSDL~2.0~\cite{WADLTeamComment}.
@@ -161,7 +165,6 @@ However, WADL still suffers from the same problem: it does emphasize the technic
 \todo{However, I would think that WADL can be interesting when a certain amount of detail is required.\\
 So why don't we output add a \Verb!Link! header to a WADL description (or WSDL, or whatever, just to be generic) on HTTP \Verb!OPTIONS!?\\
 Could it be possible {\em in theory} to generate a WADL description from RESTdesc (given the description and the use of RESTful practices)?}
-
 
 \subsection{Semantic Markup for Web Services}
 
@@ -175,17 +178,17 @@ Unfortunately, there is no obligation to use these conditions and the \owls\ sub
 
 Furthermore, while \owls\ offers functional descriptions capable of automatic discovery of the capabilities of a single service, it does not provide mechanisms to express its relation to other services. Also, descriptions contain redundancies and require a fair amount of vocabulary, even to express conceptually simple services, and rely on external groundings for technical implementations.
 
-\subsection{Do we need this shit}
-
-\todo{Thomas to write this stuff}
-
 \section{RESTful Multimedia Services}
 \label{RESTfulServices}
+%%%% Responsible: THOMAS %%%%
 \todo{Describing what a RESTful way would be to access multimedia algorithms. By treating their inputs and outputs as resources, instead of invoking commands.}
-
 
 \section{RESTdesc Semantic Description}
 \label{RESTdesc}
+%%%% Responsible: RUBEN %%%%
+\subsection{\todo{Why do we need it?}}
+\todo{Thomas}
+
 \subsection{Simple yet functional description}
 \todo{Sketch the RESTdesc format, what it does, why it is simple yet fully functional.}
 
@@ -282,30 +285,42 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 \subsection{Automated interpretation and composition}
 \todo{Tell why RESTdesc is ideal for composition.}
 
+\subsection{\todo{Concrete example}}
+\label{CompositionExample}
+
 \subsection{Compatibility and automatic translation}
 \todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
 
+\clearpage
+
 
 \section{RESTdesc Service Discovery}
+%%%% Responsible: THOMAS %%%%
+\subsection{\todo{Theory}}
 \todo{While the previous section introduced the RESTdesc description format, this section details how we can start with a single URI and learn everything about the server.}
 
-
-\section{Real-world Use Cases}
-\subsection{Automated discovery, composition, and execution}
-This use case presents an overview of the general architecture of RESTdesc for multimedia algorithms.
-\\*\todo{See Google Docs.}
-
-\subsection{Linking to external services}
-\todo{See Google Docs.}
+\subsection{\todo{Google Docs story 1}}
+\todo{The details of the service composition will have been handled in \ref{CompositionExample}.}
 
 
-\subsection{Adapting to change and errors}
-\todo{See Google Docs.}
+\section{Linking with external services}
+%%%% Responsible: none yet %%%%
+\subsection{\todo{Theory}}
+\subsection{\todo{Google Docs story 2}}
+
+
+\section{Adapting to change and errors}
+%%%% Responsible: none yet %%%%
+\subsection{\todo{Theory}}
+\subsection{\todo{Google Docs story 2}}
+
 
 \section{Conclusion}
-\todo{See Google Docs.}
+%%%% Responsible: none yet %%%%
 
 
+\section*{Acknowledgements}
+\todo{Thank Niklas Lindstr\"om}
 
 % back to Computer Modern for URLs in bibliography
 \renewcommand{\ttdefault}{cmvtt}
