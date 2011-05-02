@@ -9,7 +9,6 @@
 =>
 {
   _:request http:methodName "GET";
-            tmpl:uri [ tmpl:absoluteURITemplate "http://a.example.org/photos/{photoId}";
-                       tmpl:values (?photoId)];
+            tmpl:requestURI ("http://a.example.org/photos/" ?photoId);
             http:resp [ tmpl:represents ?photo ].
 }.
