@@ -9,8 +9,8 @@
 =>
 {
   _:request http:methodName "GET";
-            tmpl:absoluteURITemplate "http://a.example.org/photos/{photoId}/faces";
-            tmpl:uriTemplateValues (?photoId);
+            tmpl:uri [ tmpl:absoluteURITemplate "http://a.example.org/photos/{photoId}/faces";
+                       tmpl:values (?photoId) ];
             http:resp [ tmpl:representsMultiple ?region ].
   
   ?region foaf:depicts [ a foaf:Person ];
