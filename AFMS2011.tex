@@ -202,7 +202,7 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 % We present a generalized approach...
 
 \begin{lstlisting}[caption=RESTdesc description of photo retrieval,
-                   label=lst:PhotoGet, float, escapechar=\%]
+                   label=lst:PhotoGet, float, escapechar=§]
 @prefix : <http://example.org/ontology#>.
 @prefix http: <http://www.w3.org/2006/http#>.
 @prefix tmpl: <http://purl.org/restdesc/http-template#>.
@@ -220,21 +220,21 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 \end{lstlisting}
 
 \begin{lstlisting}[caption=\autoref{lst:PhotoGet} with explicit quantifiers,
-                   label=lst:PhotoGetQuantifiers, float, escapechar=\%]
+                   label=lst:PhotoGetQuantifiers, float, escapechar=§]
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-%\textbf{@forall :photo, :id.}%          # %\it $\forall$ photo, id $:$%
-%\textbf{@forsome :request, :response.}%
-{ :photo :photoId :id. }      # %\it photoId$($photo$, $id$)$ %
-%\textbf{log:implies}%                   # %\it $\Rightarrow \exists$ request$, $r : resp$($request$, $r$)$%
-{                             #    %\it $\land$ represents$($r$, $photo$)$ \textcolor{gray}{\rm{[\ldots]}}%
-  :request %\textcolor{gray}{\rm{[\ldots]}}% http:resp :response.
+§\textbf{@forall :photo, :id.}§          # §\it $\forall$ photo, id $:$§
+§\textbf{@forsome :request, :response.}§
+{ :photo :photoId :id. }      # §\it photoId$($photo$, $id$)$ §
+§\textbf{log:implies}§                   # §\it $\Rightarrow \exists$ request$, $r : resp$($request$, $r$)$§
+{                             #    §\it $\land$ represents$($r$, $photo$)$ \textcolor{gray}{\rm{[\ldots]}}§
+  :request §\textcolor{gray}{\rm{[\ldots]}}§ http:resp :response.
   :response tmpl:represents :photo.
 }.
 \end{lstlisting}
 
 \begin{lstlisting}[caption=RESTdesc description of photo upload,
-                   label=lst:PhotoUpload, float, escapechar=\%]
+                   label=lst:PhotoUpload, float, escapechar=§]
 { ?photo a foaf:Image. }
 =>
 {
@@ -248,7 +248,7 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 \end{lstlisting}
 
 \begin{lstlisting}[caption=RESTdesc description of face detection,
-                   label=lst:FaceDetection, float, escapechar=\%]
+                   label=lst:FaceDetection, float, escapechar=§]
 { ?photo :photoId ?photoId. }
 =>
 {
@@ -265,7 +265,7 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 \end{lstlisting}
 
 \begin{lstlisting}[caption=RESTdesc description of face recognition,
-                   label=lst:FaceRecognition, float, escapechar=\%, belowskip=-1em]
+                   label=lst:FaceRecognition, float, escapechar=§, belowskip=-1em]
 {
   _:region foaf:depicts ?person;
            :regionId ?regionId;
