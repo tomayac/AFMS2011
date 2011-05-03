@@ -15,6 +15,7 @@
 % listings and Verbatim environment
 \usepackage{fancyvrb}
 \RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\footnotesize}
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\fontsize{7.7}{9}}
 \usepackage{listings}
 \lstloadlanguages{SPARQL} 
 \lstdefinelanguage{RDF}{morekeywords=@prefix}
@@ -65,6 +66,15 @@
 \def\algorithmautorefname{Algorithm}
 \newcommand{\algorithmtop}{\rule{\columnwidth}{.4pt}\vspace{-1.3em}}
 \newcommand{\algorithmbottom}{\vspace{-0.6em}\rule{\columnwidth}{.4pt}\vspace{-0.6em}}
+
+% equations typesetting
+\usepackage{amsmath}
+% add parenthesis around equation references
+\makeatletter
+\def\tagform@#1{\maketag@@@{\ignorespaces#1\unskip\@@italiccorr}}
+\let\orgtheequation\theequation
+\def\theequation{(\orgtheequation)}
+\makeatother
 
 % abstract
 \renewenvironment{abstract}{\section*{\makebox[3.5cm]{}Abstract}}
@@ -195,6 +205,27 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 % You could make me and my promotor happy by \cite{Verborgh:2011p4792} as an example of automated use of services ;)
 
 \subsection{Simple yet functional description}
+By now, it is clear that we aim to provide a semantic way to express the functionality of a service -- as well as its communication -- in a concise way that appeals to humans and can be processed automatically. The word ``semantic'' obviously hints at the Semantic Web~\cite{SemanticWeb} and its core language RDF~\cite{RDF}.
+
+Let us first revise what we actually want to express. Continuing the example of \autoref{RESTfulServices}, an informal expression for photo retrieval could be:
+\begin{multline}\label{eq:Informal}
+	\textit{I can retrieve a photo by going to \Verb!/photos/!}\\[-.3em]
+	\textit{ and appending its identifier.}
+\end{multline}
+
+\noindent An intuitive formalization of the above would be
+\begin{multline}\label{eq:NaiveFormal}
+	get(uri, response) \land represents(response, photo)\, \land \\[-.3em]
+	photoUri(id, uri) \land photoId(photo,id)
+\end{multline}
+which is straightforward to represent in RDF:
+\begin{multline}\label{eq:NaiveRdf}
+	{\fontsize{8}{10}\texttt{:request :methodName "GET";}} \\[-.6em]
+	\fontsize{8}{10}\texttt{:uri ("/photos/", :id);}\makebox[3.03cm]{} \\[-.6em]
+	\fontsize{8}{10}\texttt{:response [ :represents [:photoId :id] ].}
+\end{multline}
+Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal} --~and thus its RDF counterpart~\ref{eq:NaiveRdf}~-- does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is invalid, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI, but does not offer the guarantee of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which can not be solved lightly.
+
 \todo{Sketch the RESTdesc format, what it does, why it is simple yet fully functional.}
 % Say it is ``closely tied'' to template URIs
 
