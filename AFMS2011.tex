@@ -224,7 +224,7 @@ which is straightforward to represent in RDF:
 	\fontsize{8}{10}\texttt{:request :uri ("/photos/", :id);} \\[-.5em]
 	\fontsize{8}{10}\texttt{:response [ :represents [:photoId :id] ].}
 \end{multline}
-Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal} --~and thus its RDF counterpart~\ref{eq:NaiveRdf}~-- does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is invalid, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences and should be dealt with formally.
+Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal} --~and thus its RDF counterpart~\ref{eq:NaiveRdf}~-- does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is broken, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences and should be dealt with formally.
 
 Revising~\ref{eq:QuantifiedFormal} with quantifiers gives:
 \begin{multline}\label{eq:QuantifiedFormal}
@@ -234,7 +234,7 @@ Revising~\ref{eq:QuantifiedFormal} with quantifiers gives:
 	\land photoId(photo, id)
 \end{multline}
 
-\noindent However, this still remains insufficient, because the universal quantification introduces the claim that \emph{every} photograph in the world possesses an identifier---a false statement for the majority of photographs, with the exception of those uploaded to the server. Furthermore, requests exist for such photographs only. Looking back at the informal expression~\ref{eq:Informal}, we now spot the --~again, implicit~-- assumption that the photograph we want to retrieve has an identifier, which is known to us.
+\noindent However, this still remains insufficient, because the universal quantification introduces the claim that \emph{every} photograph in the world possesses an identifier---a false statement for the majority of photographs, with the exception of those uploaded to the server. Similarly, requests exist for such photographs only. Looking back at the informal expression~\ref{eq:Informal}, we now spot the --~again, implicit~-- assumption that the photograph we want to retrieve has a~known identifier.
 
 Therefore, our last revision of the formal expression takes into account this notion as follows:
 \begin{multline}\label{eq:Formal}
@@ -269,7 +269,10 @@ This minimal syntax fully reflects the functionality of the service as intended 
 \subsection{Expressing with vocabularies}
 \todo{Explain which vocabularies we chose, why, and present the listings.}
 
-% Say it is ``closely tied'' to template URIs
+% Say it is ``closely tied'' to template URIs. Even go further and say that this (sort of) ARE template URIs with variables filled in.
+
+
+% At the end, reflect on the description and its elegance. Tell about how the request is meaningless without the precondition.
 
 \todo{Emphasize that RESTdesc = REST + description, e.g., that RESTful practices are a requirement.}
 
@@ -359,6 +362,7 @@ This minimal syntax fully reflects the functionality of the service as intended 
 \subsection{Automated interpretation and composition}
 \todo{Tell why RESTdesc is ideal for composition.}
 % Talk about operational semantics http://www.w3.org/DesignIssues/N3Logic
+% Phrase it like that the descriptions have the benefit of ALSO having operational semantics.
 
 \subsection{\todo{Concrete example}}
 \label{CompositionExample}
