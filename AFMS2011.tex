@@ -215,16 +215,37 @@ Let us first revise what we actually want to express. Continuing the example of 
 
 \noindent An intuitive formalization of the above would be
 \begin{multline}\label{eq:NaiveFormal}
-	get(uri, response) \land represents(response, photo)\, \land \\[-.3em]
-	photoUri(id, uri) \land photoId(photo,id)
+	\makebox[5.2cm]{$hasUri(request, \{\mbox{``\!\Verb!/photos/!''}, id\})\, \land$} \\[-.2em]
+	hasResponse(request, resp) \land represents(resp, photo)\\[-.2em]
+	\land photoId(photo, id)
 \end{multline}
 which is straightforward to represent in RDF:
 \begin{multline}\label{eq:NaiveRdf}
-	{\fontsize{8}{10}\texttt{:request :methodName "GET";}} \\[-.6em]
-	\fontsize{8}{10}\texttt{:uri ("/photos/", :id);}\makebox[3.03cm]{} \\[-.6em]
+	\fontsize{8}{10}\texttt{:request :uri ("/photos/", :id);} \\[-.6em]
 	\fontsize{8}{10}\texttt{:response [ :represents [:photoId :id] ].}
 \end{multline}
 Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal} --~and thus its RDF counterpart~\ref{eq:NaiveRdf}~-- does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is invalid, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences and should be dealt with formally.
+
+Revising~\ref{eq:QuantifiedFormal} with quantifiers gives:
+\begin{multline}\label{eq:QuantifiedFormal}
+	\makebox[4.4cm]{$\forall\, photo : \exists\; id, request, uri, resp :$} \\[-.2em]
+	\shoveleft{hasUri(request, \{\mbox{``\!\Verb!/photos/!''}, id\})\, \land} \\[-.2em]
+	\shoveleft{hasResponse(request, resp) \,\land\, represents(resp, photo)}\\[-.2em]
+	\land photoId(photo, id)
+\end{multline}
+
+\noindent However, this still remains insufficient, because the universal quantification introduces the claim that \emph{every} photograph in the world possesses an identifier---a false statement for the majority of photographs, with the exception of those uploaded to the server. Furthermore, requests exist for such photographs only. Looking back at the informal expression~\ref{eq:Informal}, we now spot the --~again, implicit~-- assumption that the photograph we want to retrieve has an identifier, which is known to us.
+
+Therefore, our last revision of the formal expression takes into account this notion as follows:
+\begin{multline}\label{eq:Formal}
+	\makebox[7.8cm]{$\forall\, photo, id : photoId(photo, id) \Rightarrow
+					\exists\, request, uri, resp :$}\\[-.2em]
+	\shoveleft{hasUri(request, \{\mbox{``\!\Verb!/photos/!''}, id\})} \\[-.2em]
+	\shoveleft{\land hasResponse(request, resp)} \\[-.2em]
+	\land\, represents(resp, photo)\makebox[3.38cm]{}
+\end{multline}
+
+The above expression now corresponds to the intended meaning of~\ref{eq:Informal}: that a representation of every photograph with an identifier can be retrieved by following the constructed URI.
 
 \todo{Sketch the RESTdesc format, what it does, why it is simple yet fully functional.}
 % Say it is ``closely tied'' to template URIs
