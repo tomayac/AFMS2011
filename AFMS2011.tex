@@ -221,7 +221,7 @@ Let us first revise what we actually want to express. Continuing the example of 
 \end{multline}
 which is straightforward to represent in RDF:
 \begin{multline}\label{eq:NaiveRdf}
-	\fontsize{8}{10}\texttt{:request :uri ("/photos/", :id);} \\[-.6em]
+	\fontsize{8}{10}\texttt{:request :uri ("/photos/", :id);} \\[-.5em]
 	\fontsize{8}{10}\texttt{:response [ :represents [:photoId :id] ].}
 \end{multline}
 Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal} --~and thus its RDF counterpart~\ref{eq:NaiveRdf}~-- does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is invalid, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences and should be dealt with formally.
@@ -245,14 +245,33 @@ Therefore, our last revision of the formal expression takes into account this no
 	\land\, represents(resp, photo)\makebox[3.38cm]{}
 \end{multline}
 
-The above expression now corresponds to the intended meaning of~\ref{eq:Informal}: that a representation of every photograph with an identifier can be retrieved by following the constructed URI.
+The above expression now corresponds to the intended meaning of~\ref{eq:Informal}: that a representation of every photograph with an identifier can be retrieved by following the constructed URI. Now the issue of expressing~\ref{eq:Formal} in RDF remains. The original RDF specification~\cite{RDF} does not include a form of quantifiers. Although attempts have been made in the past (e.g., \cite{RDFQuantifiers}), the most successful is Tim Berners-Lee's Notation3~\cite{Notation3}, which as an added benefit also includes syntactical support for implications.
+
+Expressing~\ref{eq:Formal} in Notation3 gives:
+\begin{multline}\label{eq:FullNotation3}
+	\makebox[2.7cm]{\fontsize{8}{10}\texttt{@forAll :photo, :id.}}\\[-.5em]
+	\fontsize{8}{10}\texttt{@forSome :request.}\makebox[5.47cm]{}\\[-.5em]
+	\fontsize{8}{10}\texttt{\{:photo :photoId :id.\}}\makebox[4.37cm]{}\\[-.5em]
+	\fontsize{8}{10}\texttt{:implies}\makebox[5.47cm]{}\\[-.5em]
+	\fontsize{8}{10}\texttt{\{:request :uri ("/photos/", :id);}\makebox[2.5cm]{}\\[-.5em]
+	\makebox[5.75cm]{\fontsize{8}{10}\texttt{:response [ :represents :photo ].\}.}}
+\end{multline}
+
+Note the automatic existential quantification of blank nodes. By turning the request also in a blank node and using the full expressive power of Notation3, we can conveniently write~\ref{eq:FullNotation3} as:
+\begin{multline}\label{eq:Notation3}
+	\makebox[3.44cm]{\fontsize{8}{10}\texttt{\{:photo :photoId :id.\}}}\\[-.5em]
+	\fontsize{8}{10}\texttt{=>}\makebox[7.6cm]{}\\[-.5em]
+	\fontsize{8}{10}\texttt{\{:request :uri ("/photos/", :id);}\makebox[2.5cm]{}\\[-.5em]
+	\makebox[5.75cm]{\fontsize{8}{10}\texttt{:response [ :represents :photo ].\}.}}
+\end{multline}
+This minimal syntax fully reflects the functionality of the service as intended by~\ref{eq:Informal}.
 
 \subsection{Expressing with vocabularies}
+\todo{Explain which vocabularies we chose, why, and present the listings.}
+
 % Say it is ``closely tied'' to template URIs
 
 \todo{Emphasize that RESTdesc = REST + description, e.g., that RESTful practices are a requirement.}
-
-\todo{Avoid critique on the use of Notation3 Logic. Mention Tim BL etc.}
 
 % In ..., Steiner and Algermissen hint at... (Section 5, use of semantic identifier for youtube video)
 % We present a generalized approach...
@@ -277,8 +296,8 @@ The above expression now corresponds to the intended meaning of~\ref{eq:Informal
                    label=lst:PhotoGetQuantifiers, float, escapechar=§]
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-§\textbf{@forall :photo, :id.}§         # §\it $\forall$ photo, id $:$§
-§\textbf{@forsome :request, :response.}§
+§\textbf{@forAll :photo, :id.}§         # §\it $\forall$ photo, id $:$§
+§\textbf{@forSome :request, :response.}§
 { :photo :photoId :id. }     # §\it photoId$($photo$, $id$)$ §
 §\textbf{log:implies}§                  # §\it $\Rightarrow \exists$ request$, $r : resp$($request$, $r$)$§
 {                            #    §\it $\land$ represents$($r$, $photo$)$ \textcolor{gray}{\rm{[\ldots]}}§
@@ -339,6 +358,7 @@ The above expression now corresponds to the intended meaning of~\ref{eq:Informal
 
 \subsection{Automated interpretation and composition}
 \todo{Tell why RESTdesc is ideal for composition.}
+% Talk about operational semantics http://www.w3.org/DesignIssues/N3Logic
 
 \subsection{\todo{Concrete example}}
 \label{CompositionExample}
