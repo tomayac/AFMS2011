@@ -195,7 +195,7 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 %%%% Responsible: THOMAS %%%%
 \todo{Describing what a RESTful way would be to access multimedia algorithms. By treating their inputs and outputs as resources, instead of invoking commands.}
 
-\todo{Could you explain this by using the face detection and/or face recognition examples? Then I can refer to them in \autoref{RESTdesc}.}
+\todo{Could you introduce the face detection and face recognition examples? Then I can refer to them in \autoref{RESTdesc}.}
 
 \section{RESTdesc Semantic Description}
 \label{RESTdesc}
@@ -288,18 +288,7 @@ Finally, we need a way to tie the URI templates to HTTP request parameters such 
 
 \autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. The concepts unique to the server itself are expressed in a \emph{server-specific ontology}. The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template vocabulary to specify the URI template and the contents of the response.
 
-Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the template. \label{SemanticTemplateURI}
-% Maybe tell something here about CoIN. Differences: RESTdesc is more flexible, RESTdesc has all HTTP methods, RESTdesc is not limited to the request URI only
-
-% Tell something about semantic and ontology
-% In ..., Steiner and Algermissen hint at... (Section 5, use of semantic identifier for youtube video)
-% We present a generalized approach...
-
-% Say it is ``closely tied'' to template URIs. Even go further and say that this (sort of) ARE template URIs with variables filled in.
-
-% At the end, reflect on the description and its elegance. Tell about how the request is meaningless without the precondition.
-
-\todo{Emphasize that RESTdesc = REST + description, e.g., that RESTful practices are a requirement.}
+Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. An alternative way to look at the implication is to state that the specified request only exists in presence of a photograph. The semantics of the quantification have been highlighted in \autoref{lst:PhotoGetQuantifiers}, which contains the same description with the explicit quantifier syntax. The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the URI template. \label{SemanticTemplateURI}
 
 \begin{figure}[float=t!]
 \begin{lstlisting}[caption=RESTdesc description of photo retrieval,
@@ -388,7 +377,11 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \end{lstlisting}
 \end{figure}
 
-% Mention we can also deal with changes over time, possibly referring to planning systems
+Listings~\ref{lst:PhotoUpload} to~\ref{lst:FaceRecognition} show example descriptions of other services on the same server. For photo upload (\autoref{lst:PhotoUpload}), we see the prerequisite is having an image. Note that the service description author is free to use any vocabulary, in this case the \emph{FOAF} ontology. Since the request URI is fixed, no template URI was used. The response, in contrast, will have a \Verb!Location! header with a URI containing the photo identifier. For the request, we specify the format of the \Verb!POST! body. Note how the precondition of photo retrieval (\autoref{lst:PhotoGet}) naturally follows from the postcondition of photo upload, hinting at a possible~causality.
+
+This effect is also visible in \autoref{lst:FaceDetection} and \autoref{lst:FaceRecognition}, which both demonstrate the ease of expressing complex conditions. The required expressions involve a complicated indirection (e.g., ``the photograph contains a region which depicts a person''), yet they can be understood quite easily, while the formal semantics are sound.
+
+When we overlook all of the above, it becomes apparent that RESTdesc descriptions are a simple and elegant way of describing Web services in an integrated semantic manner. They capture the functional aspects formally without resorting to complex artifices. The use of the HTTP vocabulary and semantic identifiers was taken from previous work~\cite{Steiner:2011p5006}, as well as the use of \mbox{Notation3} conditions~\cite{Verborgh:2010p2746}, both which were extended and combined into a single method. The resulting \mbox{RESTdesc} descriptions can be used for automatic discovery, service composition, and execution. These and other aspects will be demonstrated in \autoref{CompositionExample}.
 
 
 \subsection{Automated interpretation and composition}
@@ -398,13 +391,17 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 
 % Tell understanding of server-specific ontology is not necessary for composition.
 
-\subsection{\todo{Concrete example}}
-\label{CompositionExample}
-
 \subsection{Compatibility and automatic translation}
 \todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
 % Refer back to \ref{SemanticTemplateURI} for CoIN.
+% Differences: RESTdesc is more flexible, RESTdesc has all HTTP methods, RESTdesc is not limited to the request URI only
 % Could we automatically convert into a human-readable format?
+% Content negotiation.
+
+\subsection{\todo{Concrete example}}
+\label{CompositionExample}
+
+% Mention we can also deal with changes over time, possibly referring to planning systems
 
 
 \section{RESTdesc Service Discovery}
@@ -418,6 +415,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 
 \section{Linking with external services}
 %%%% Responsible: none yet %%%%
+% Maybe we should drop this. Future separate article?
 \subsection{\todo{Theory}}
 \subsection{\todo{Google Docs story 2}}
 
@@ -437,6 +435,10 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \item an HTTP-based discovery method of services, both internal and external
 \end{itemize}
 }
+
+\todo{Emphasize that RESTdesc = REST + description, e.g., that RESTful practices are a requirement.}
+
+% Say "pragmatic" somewhere.
 
 % Say that it is integrated, unlike OWL-S.
 
