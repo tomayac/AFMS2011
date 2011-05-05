@@ -379,17 +379,21 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 
 Listings~\ref{lst:PhotoUpload} to~\ref{lst:FaceRecognition} show example descriptions of other services on the same server. For photo upload (\autoref{lst:PhotoUpload}), we see the prerequisite is having an image. Note that the service description author is free to use any vocabulary, in this case the \emph{FOAF} ontology. Since the request URI is fixed, no template URI was used. The response, in contrast, will have a \Verb!Location! header with a URI containing the photo identifier. For the request, we specify the format of the \Verb!POST! body. Note how the precondition of photo retrieval (\autoref{lst:PhotoGet}) naturally follows from the postcondition of photo upload, hinting at a possible~causality.
 
-This effect is also visible in \autoref{lst:FaceDetection} and \autoref{lst:FaceRecognition}, which both demonstrate the ease of expressing complex conditions. The required expressions involve a complicated indirection (e.g., ``the photograph contains a region which depicts a person''), yet they can be understood quite easily, while the formal semantics are sound.
+This effect is also visible in \autoref{lst:FaceDetection} and \autoref{lst:FaceRecognition}, which both demonstrate the ease of expressing complex conditions. The required expressions involve a complicated indirection (e.g., ``the photograph contains a region that depicts a person''), yet they can be understood quite easily, while the formal semantics are sound.
 
-When we overlook all of the above, it becomes apparent that RESTdesc descriptions are a simple and elegant way of describing Web services in an integrated semantic manner. They capture the functional aspects formally without resorting to complex artifices. The use of the HTTP vocabulary and semantic identifiers was taken from previous work~\cite{Steiner:2011p5006}, as well as the use of \mbox{Notation3} conditions~\cite{Verborgh:2010p2746}, both which were extended and combined into a single method. The resulting \mbox{RESTdesc} descriptions can be used for automatic discovery, service composition, and execution. These and other aspects will be demonstrated in \autoref{CompositionExample}.
+When we overlook all of the above, it becomes apparent that RESTdesc descriptions are a simple and elegant way of describing Web services in an integrated semantic manner. They capture the functional aspects formally without resorting to complex artifices. The use of the HTTP vocabulary and semantic identifiers was taken from previous work~\cite{Steiner:2011p5006}, as well as the use of \mbox{Notation3} conditions~\cite{Verborgh:2010p2746}, both which were extended and combined into a single method. The resulting \mbox{RESTdesc} descriptions can be used for automatic discovery, service composition, and execution. These and other aspects will be demonstrated in \autoref{MainStory}.
 
 
 \subsection{Automated interpretation and composition}
+\label{Composition}
 \todo{Tell why RESTdesc is ideal for composition.}
 % Talk about operational semantics http://www.w3.org/DesignIssues/N3Logic
 % Phrase it like that the descriptions have the benefit of ALSO having operational semantics.
 
 % Tell understanding of server-specific ontology is not necessary for composition.
+
+% Mention we can also deal with changes over time, possibly referring to planning systems
+
 
 \subsection{Compatibility and automatic translation}
 \todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
@@ -398,11 +402,6 @@ When we overlook all of the above, it becomes apparent that RESTdesc description
 % Could we automatically convert into a human-readable format?
 % Content negotiation.
 
-\subsection{\todo{Concrete example}}
-\label{CompositionExample}
-
-% Mention we can also deal with changes over time, possibly referring to planning systems
-
 
 \section{RESTdesc Service Discovery}
 %%%% Responsible: THOMAS %%%%
@@ -410,7 +409,8 @@ When we overlook all of the above, it becomes apparent that RESTdesc description
 \todo{While the previous section introduced the RESTdesc description format, this section details how we can start with a single URI and learn everything about the server.}
 
 \subsection{\todo{Google Docs story 1}}
-\todo{The details of the service composition will have been handled in \ref{CompositionExample}.}
+\label{MainStory}
+\todo{The details of the service composition will have been handled in \ref{Composition}.}
 
 
 \section{Linking with external services}
