@@ -15,7 +15,7 @@
 % listings and Verbatim environment
 \usepackage{fancyvrb}
 \RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\footnotesize}
-\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\fontsize{7.7}{9}}
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\fontsize{7.5pt}{9pt}}
 \usepackage{listings}
 \lstloadlanguages{SPARQL} 
 \lstdefinelanguage{RDF}{morekeywords=@prefix}
@@ -266,18 +266,40 @@ Note the automatic existential quantification of blank nodes. By turning the req
 \end{multline}
 This minimal syntax fully reflects the functionality of the service as intended by~\ref{eq:Informal}.
 
-\subsection{Expressing with vocabularies}
-\todo{Explain which vocabularies we chose, why, and present the listings.}
+\subsection{RESTdesc description format}
+With the syntax and required concepts in mind, we now look at existing recommendations, proposals, and vocabularies that we can integrate to obtain an interchangeable description format.
+
+Since RESTful services are centered around correct use of the HTTP protocol, one of the obvious elements we need is a way to describe HTTP requests. The \emph{HTTP Vocabulary in RDF}~\cite{HTTPinRDF} is already widespread, despite its W3C Working Draft status. It defines all concepts to rigorously describe HTTP messages, their structure, and their relationships.
+
+The resource-oriented nature of RESTful services implies the use of descriptive URIs, based on a structure specific to each server. Therefore, we should be able to express the relationship between a resource and its URI. In an Internet-Draft, the IETF describes the concept of URI templates~\cite{URITemplate} to refer to a specific resource.
+
+\needspace{2em} Below is an example of a URI template for a person in a photograph:
+\begin{Verbatim}
+http://example.org/photos/{photoId}/persons/{personId}
+\end{Verbatim}
+The identifiers between braces are variables, which can be assigned a value. For example, to get the person with identifier $3$ on photograph $241$, the URI becomes:
+\begin{Verbatim}
+http://example.org/photos/241/persons/3
+\end{Verbatim}
+
+While URI templates are still in draft, many implementations and applications exist. It is clear that we should include them in our design.
+
+Finally, we need a way to tie the URI templates to HTTP request parameters such as the request URI. Also, some additional template semantics are required, for instance to describe what the response body contains. Since such a vocabulary was not available yet, we created the \emph{HTTP template} ontology\footnote{Located at {\fontsize{8}{10}\url{http://purl.org/restdesc/uri-template}}.}.
+
+\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. The concepts unique to the server itself are expressed in a \emph{server-specific ontology}. The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template vocabulary to specify the URI template and the contents of the response.
+
+Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the template. \label{SemanticTemplateURI}
+% Maybe tell something here about CoIN. Differences: RESTdesc is more flexible, RESTdesc has all HTTP methods, RESTdesc is not limited to the request URI only
+
+% Tell something about semantic and ontology
+% In ..., Steiner and Algermissen hint at... (Section 5, use of semantic identifier for youtube video)
+% We present a generalized approach...
 
 % Say it is ``closely tied'' to template URIs. Even go further and say that this (sort of) ARE template URIs with variables filled in.
-
 
 % At the end, reflect on the description and its elegance. Tell about how the request is meaningless without the precondition.
 
 \todo{Emphasize that RESTdesc = REST + description, e.g., that RESTful practices are a requirement.}
-
-% In ..., Steiner and Algermissen hint at... (Section 5, use of semantic identifier for youtube video)
-% We present a generalized approach...
 
 \begin{lstlisting}[caption=RESTdesc description of photo retrieval,
                    label=lst:PhotoGet, float, escapechar=§]
@@ -364,11 +386,15 @@ This minimal syntax fully reflects the functionality of the service as intended 
 % Talk about operational semantics http://www.w3.org/DesignIssues/N3Logic
 % Phrase it like that the descriptions have the benefit of ALSO having operational semantics.
 
+% Tell understanding of server-specific ontology is not necessary for composition.
+
 \subsection{\todo{Concrete example}}
 \label{CompositionExample}
 
 \subsection{Compatibility and automatic translation}
 \todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
+% Refer back to \ref{SemanticTemplateURI} for CoIN.
+% Could we automatically convert into a human-readable format?
 
 \clearpage
 
@@ -403,6 +429,8 @@ This minimal syntax fully reflects the functionality of the service as intended 
 \item an HTTP-based discovery method of services, both internal and external
 \end{itemize}
 }
+
+% Say that it is integrated, unlike OWL-S.
 
 
 \section*{Acknowledgements}
