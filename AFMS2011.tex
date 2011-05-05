@@ -19,8 +19,8 @@
 \usepackage{listings}
 \lstloadlanguages{SPARQL} 
 \lstdefinelanguage{RDF}{morekeywords=@prefix}
-\lstset{frame=lines,captionpos=b,numberbychapter=false,
-        aboveskip=0em,belowskip=.5em,abovecaptionskip=.5em,belowcaptionskip=0em,
+\lstset{frame=bottomline,captionpos=b,numberbychapter=false,
+        aboveskip=0em,belowskip=.5em,abovecaptionskip=.3em,belowcaptionskip=.6em,
         basicstyle=\ttfamily\fontsize{7pt}{8.5pt}\selectfont,stringstyle=\em,showstringspaces=false}
 
 % abstract keywords
@@ -301,14 +301,17 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 
 \todo{Emphasize that RESTdesc = REST + description, e.g., that RESTful practices are a requirement.}
 
+\begin{figure}[float=t!]
 \begin{lstlisting}[caption=RESTdesc description of photo retrieval,
-                   label=lst:PhotoGet, float, escapechar=§]
+                   label=lst:PhotoGet, escapechar=§]
 @prefix : <http://a.example.org/ontology#>.
 @prefix http: <http://www.w3.org/2006/http#>.
 @prefix tmpl: <http://purl.org/restdesc/http-template#>.
 @prefix foaf: <http://xmlns.com/foaf/>.
 
-{ ?photo :photoId ?id. }
+{
+  ?photo :photoId ?id.
+}
 =>
 {
   _:request http:methodName "GET";
@@ -318,12 +321,14 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \end{lstlisting}
 
 \begin{lstlisting}[caption=\autoref{lst:PhotoGet} with explicit quantifiers,
-                   label=lst:PhotoGetQuantifiers, float, escapechar=§]
+                   label=lst:PhotoGetQuantifiers, escapechar=§]
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 §\textbf{@forAll :photo, :id.}§         # §\it $\forall$ photo, id $:$§
 §\textbf{@forSome :request, :response.}§
-{ :photo :photoId :id. }     # §\it photoId$($photo$, $id$)$ §
+{
+  :photo :photoId :id.       # §\it photoId$($photo$, $id$)$ §
+}
 §\textbf{log:implies}§                  # §\it $\Rightarrow \exists$ request$, $r : resp$($request$, $r$)$§
 {                            #    §\it $\land$ represents$($r$, $photo$)$ \textcolor{gray}{\rm{[\ldots]}}§
   :request §\textcolor{gray}{\rm{[\ldots]}}§ http:resp :response.
@@ -332,8 +337,10 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \end{lstlisting}
 
 \begin{lstlisting}[caption=RESTdesc description of photo upload,
-                   label=lst:PhotoUpload, float, escapechar=§]
-{ ?photo a foaf:Image. }
+                   label=lst:PhotoUpload, escapechar=§]
+{
+  ?photo a foaf:Image.
+}
 =>
 {
   _:request http:methodName "POST";
@@ -346,8 +353,10 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \end{lstlisting}
 
 \begin{lstlisting}[caption=RESTdesc description of face detection,
-                   label=lst:FaceDetection, float, escapechar=§]
-{ ?photo :photoId ?photoId. }
+                   label=lst:FaceDetection, escapechar=§]
+{
+  ?photo :photoId ?photoId.
+}
 =>
 {
   _:request http:methodName "GET";
@@ -361,7 +370,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \end{lstlisting}
 
 \begin{lstlisting}[caption=RESTdesc description of face recognition,
-                   label=lst:FaceRecognition, float, escapechar=§, belowskip=-1em]
+                   label=lst:FaceRecognition, escapechar=§, belowskip=-1em]
 {
   _:region foaf:depicts ?person;
            :regionId ?regionId;
@@ -377,6 +386,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
   ?person foaf:name _:personName.
 }.
 \end{lstlisting}
+\end{figure}
 
 % Mention we can also deal with changes over time, possibly referring to planning systems
 
@@ -395,8 +405,6 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
 % Refer back to \ref{SemanticTemplateURI} for CoIN.
 % Could we automatically convert into a human-readable format?
-
-\clearpage
 
 
 \section{RESTdesc Service Discovery}
