@@ -222,7 +222,6 @@ The answer to the question whether Web service description and Web service disco
 On the one hand there is the question whether Web service description is needed. In RESTful systems, the common opinion is that each message should be self-descriptive enough so that user agents can make sense of each message, given a documented media type that the message is serialized in. On a pure technical layer this works well. For example, let us imagine that the response from an ``I'm feeling lucky"\footnote{\url{http://www.google.com/support/websearch/bin/answer.py?&answer=30735}}-type image search API might be a single image of the media type \texttt{image/gif}. This gives the user agent enough information to process the response with its  Graphics Interchange Format (GIF) library, however, a priori it is not clear that the image stands in relation to a search query that the user agent has used as an input. While we could perfectly use OpenSearch~\cite{OpenSearch} to describe this API, only a slight variation of the API renders using OpenSearch impossible. Therefore, let us imagine a Web font preview API, where you give the name of a Web font as an input, and get a GIF image with a preview of the text ``The quick brown fox jumps over the lazy dog" in that very Web font as an output. There is currently no way to describe such API, and yet it might be desirable for a Web font vendor to announce the availability of it. 
 
 The second question is whether automatic discovery of Web services is needed. The first approach for automatic service discovery was UDDI, outlined in Section~\ref{sec:uddi}. It was driven by the vision that central service registries would serve as so-called Green Pages for parties interested in a specific service. The problem with this approach, however, is that companies do not work this way. There is always a human being involved in the process\footnote{\url{http://soa.sys-con.com/node/164624}}. We see the potential of service discovery in the generation and run-time supervision of automatic execution plans as outlined in~\cite{Verborgh:2011p4792}, which can highly profit from discoverable service descriptions. The before-mentioned OpenSearch protocol allows for an interesting use case of service discovery. Web pages can reference an OpenSearch description that user agents like in the concrete case the Google Chrome browser can process and offer site-specific search automatically\footnote{\url{http://www.google.com/chrome/intl/en/webmasters-faq.html\#osdd}}. If we adapt this idea to our approach, user agents could dynamically offer services related to a current resource, if the resource points to a service description.
-% You could make me and my promotor happy by \cite{Verborgh:2011p4792} as an example of automated use of services ;)
 
 \subsection{Deriving a functional description}
 By now, it is clear that we aim to provide a semantic method to express the functionality of a service---as well as its communication---in a concise way that appeals to humans and can be processed automatically. The word ``semantic'' obviously hints at the Semantic Web~\cite{SemanticWeb} and its core language RDF~\cite{RDF}.
@@ -306,7 +305,10 @@ While URI templates are still in draft, many implementations and applications ex
 
 Finally, we need a way to tie the URI templates to HTTP request parameters such as the request URI. Also, some additional template semantics are required, for instance to describe what the response body contains. Since such a vocabulary was not available yet, we created the \emph{HTTP template} ontology\footnote{Located at {\fontsize{8}{10}\url{http://purl.org/restdesc/uri-template}}.}.
 
-\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. The concepts unique to the server itself are expressed in a \emph{server-specific ontology}. The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template vocabulary to specify the URI template and the contents of the response.
+\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. The concepts unique to the server itself are expressed in a \emph{server-specific vocabulary}
+\footnote{
+It is not obligatory to detail the server-specific vocabulary in an ontology. Its consistent use across different descriptions may suffice for interpretation and composition.}.
+The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template vocabulary to specify the URI template and the contents of the response.
 
 Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. An alternative way to look at the implication is to state that the specified request only exists in presence of a photograph. The semantics of the quantification have been highlighted in \autoref{lst:PhotoGetQuantifiers}, which contains the same description with the explicit quantifier syntax. The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the URI template. \label{SemanticTemplateURI}
 
@@ -425,6 +427,7 @@ It is also the precondition of photo upload (\autoref{lst:PhotoUpload}). Consequ
 In addition to \emph{what} steps we can take, the inference process also tells us \emph{how} to take this steps by listing the concrete HTTP requests.
 
 This and other examples can be verified online using the EYE Semantic Web reasoner~\cite{Euler} on the interactive RESTdesc website\footnote{
+\label{OnlineExamples}
 \todo{I would point here to a starting point, containing links to the reasoning examples, as well as the node server example.}
 }.
 
@@ -434,22 +437,19 @@ An even more interesting approach is to add a goal, in a addition to starting po
 \end{equation*}
 The proof of the reasoner for this query, forms a list of ordered steps to obtain the desired results, again with detailed instructions on how to execute these steps. This differs from the previous output, which was just an unordered list of possible actions. Here, the result is an actual execution plan.
 
-It is apparent that RESTdesc descriptions provide a powerful and instant way to deal with automated interpretation and composition of different web services.
-
-% Talk about operational semantics http://www.w3.org/DesignIssues/N3Logic
-% Phrase it like that the descriptions have the benefit of ALSO having operational semantics.
-
-% Tell understanding of server-specific ontology is not necessary for composition.
-
-% Mention we can also deal with changes over time, possibly referring to planning systems
+It is apparent that RESTdesc descriptions provide a powerful and instant way to deal with automated interpretation and composition of different Web services.
 
 
 \subsection{Compatibility and automatic translation}
-\todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
-% Refer back to \ref{SemanticTemplateURI} for CoIN.
-% Differences: RESTdesc is more flexible, RESTdesc has all HTTP methods, RESTdesc is not limited to the request URI only
-% Could we automatically convert into a human-readable format?
-% Content negotiation.
+One outstanding property of RESTdesc is that it, capturing the complete functionality of the service, can be converted into a multitude of other formats. After all, the functionality description, combined with invocation information, contains the maximal superset of what needs to be known to machines about a service.
+
+Is it important to realize that RESTdesc starts from RESTful principles, from which the invocation aspects follow. For instance, the fact that \Verb!GET! and \Verb!HEAD! operations are safe and idempotent, whereas \Verb!POST! is not, conveys necessary information to generate certain descriptions.
+
+One relevant example is the translation to the Composition of Identifier Names vocabulary~(CoIN, \cite{CoIN}). The CoIN vocabulary \emph{``defines a set of classes and properties used to describe what properties of a resource constitute components of a URI''}. This information is present in the RESTdesc service descriptions, due to its use of URI templates which are bound to concrete variables. Automatic translation can be seen in action online$^\textrm{\ref{OnlineExamples}}$.
+
+It is also possible to generate WSDL or \owls\ descriptions, as all the information---besides human-targeted elements such as labels and textual information---are readily available. In fact, human-centric textual descriptions could also be generated based on RESTdesc and ontological information. \autoref{lst:PhotoGet} could translate to ``given an identifier, retrieves a representation of the photograph with that identifier.''
+
+By means of content negotiation, a description format understood by the client can be returned upon request.
 
 
 \section{RESTdesc Service Discovery} \label{sec:restdesc-discovery}
@@ -493,11 +493,9 @@ It is apparent that RESTdesc descriptions provide a powerful and instant way to 
 
 
 \section*{Acknowledgements}
-\todo{Thank Niklas Lindstr\"om}
+The authors wish to thank Niklas Lindstr\"om for his help with the CoIN vocabulary and Jos De Roo for his assistance with the EYE Semantic Web Reasoner.
 
 Thomas Steiner is partially funded by the EU FP7 I-SEARCH project (ref. 248296).
-
-\todo{Thank Jos De Roo}
 
 % back to Computer Modern for URLs in bibliography
 \renewcommand{\ttdefault}{cmvtt}
