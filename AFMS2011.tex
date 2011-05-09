@@ -412,6 +412,7 @@ It is also the precondition of photo upload (\autoref{lst:PhotoUpload}). Consequ
 In addition to \emph{what} steps we can take, the inference process also tells us \emph{how} to take this steps by listing the concrete HTTP requests.
 
 This and other examples can be verified online using the EYE Semantic Web reasoner~\cite{Euler} on the interactive RESTdesc website\footnote{
+\label{OnlineExamples}
 \todo{I would point here to a starting point, containing links to the reasoning examples, as well as the node server example.}
 }.
 
@@ -425,11 +426,15 @@ It is apparent that RESTdesc descriptions provide a powerful and instant way to 
 
 
 \subsection{Compatibility and automatic translation}
-\todo{Explain compatibility with CoIN, OWL-S, maybe WSDL etc., and how the translation can happen automatically.}
-% Refer back to \ref{SemanticTemplateURI} for CoIN.
-% Differences: RESTdesc is more flexible, RESTdesc has all HTTP methods, RESTdesc is not limited to the request URI only
-% Could we automatically convert into a human-readable format?
-% Content negotiation.
+One outstanding property of RESTdesc is that it, capturing the complete functionality of the service, can be converted into a multitude of other formats. After all, the functionality description, combined with invocation information, contains the maximal superset of what needs to be known to machines about a service.
+
+Is it important to realize that RESTdesc starts from RESTful principles, from which the invocation aspects follow. For instance, the fact that \Verb!GET! and \Verb!HEAD! operations are safe and idempotent, whereas \Verb!POST! is not, conveys necessary information to generate certain descriptions.
+
+One relevant example is the translation to the Composition of Identifier Names vocabulary~(CoIN, \cite{CoIN}). The CoIN vocabulary \emph{``defines a set of classes and properties used to describe what properties of a resource constitute components of a URI''}. This information is present in the RESTdesc service descriptions, due to its use of URI templates which are bound to concrete variables. Automatic translation can be seen in action online$^\textrm{\ref{OnlineExamples}}$.
+
+It is also possible to generate WSDL or \owls\ descriptions, as all the information---besides human-targeted elements such as labels and textual information---are readily available. In fact, human-centric textual descriptions could also be generated based on RESTdesc and ontological information. \autoref{lst:PhotoGet} could translate to ``given an identifier, retrieves a representation of the photograph with that identifier.''
+
+By means of content negotiation, a description format understood by the client can be returned upon request.
 
 
 \section{RESTdesc Service Discovery}
@@ -473,9 +478,7 @@ It is apparent that RESTdesc descriptions provide a powerful and instant way to 
 
 
 \section*{Acknowledgements}
-\todo{Thank Niklas Lindstr\"om}
-
-\todo{Thank Jos De Roo}
+The authors wish to thank Niklas Lindstr\"om for his help with the CoIN vocabulary and Jos De Roo for his assistance with the EYE Semantic Web Reasoner.
 
 % back to Computer Modern for URLs in bibliography
 \renewcommand{\ttdefault}{cmvtt}
