@@ -23,6 +23,9 @@
         aboveskip=0em,belowskip=.5em,abovecaptionskip=.3em,belowcaptionskip=.6em,
         basicstyle=\ttfamily\fontsize{7pt}{8.5pt}\selectfont,stringstyle=\em,showstringspaces=false}
 
+% for multiline comments
+\usepackage{verbatim} 
+
 % abstract keywords
 \newcommand{\keywords}[1]{\par\addvspace\baselineskip
 \noindent\keywordname\enspace\ignorespaces#1}
@@ -133,15 +136,13 @@
 
 \begin{abstract}
 %%%% Responsible: THOMAS %%%%
-\todo{
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida fringilla ipsum nec tincidunt. Curabitur fermentum tincidunt semper. Suspendisse at orci quam. Ut risus est, mollis nec placerat et, lacinia sed ligula. Nunc varius felis vitae elit mollis laoreet. Nulla congue, sem id ullamcorper convallis, nibh massa scelerisque elit, at congue purus eros vel metus. Nulla purus turpis, egestas eget vehicula et, blandit in nibh. Mauris id sapien velit, in viverra neque. In hac habitasse platea dictumst. Phasellus at ante vitae lectus scelerisque gravida. Curabitur bibendum, libero non interdum rhoncus, diam ante volutpat lorem, a volutpat ante mauris vel nisi. Donec nisi felis, rhoncus et suscipit sit amet, porta eget felis. Maecenas aliquam interdum elit, sed fringilla lorem fringilla non.
-In hac habitasse platea dictumst. Sed blandit diam sed sem dignissim in aliquet massa consequat. Integer aliquam congue justo a rhoncus. Sed sit amet interdum eros. Nunc aliquam, nisl vitae pulvinar posuere, odio justo malesuada nunc, non sodales tellus diam quis purus. Aenean sed neque quis dui ultricies cursus a vitae orci. Nulla facilisi. Nulla lacus nisl, cursus at vehicula ac, malesuada non est.}
+Many have left their footprints on the field of semantic RESTful Web service description. Albeit some of the propositions are even W3C Recommendation, none of the proposed standards could gain significant adoption with Web service providers. Some approaches were supposedly too complex and verbose, others were considered not RESTful, and some failed to reach a significant majority of API providers for a combination of the reasons above. While we neither have the silver bullet for universal Web service description, with this paper, we want to suggest a lightweight approach, which is based on pre- and postconditions expressed in simple N3 rules for the semantics of Web services, and that heavily reuses existing standards such as Link headers, HTTP OPTIONS, and URI templates for everything else. This approach keeps the complexity to a minimum while still allowing for full semantic expressiveness with regards to service description. We have deployed a sample implementation of our approach for testing purposes.
 \end{abstract}
 
 
 %%%%%%%%%% body %%%%%%%%%%
 
-\section{Introduction}
+\section{Introduction} \label{sec:introduction}
 %%%% Responsible: RUBEN %%%%
 The immense diversity of various multimedia analysis and processing algorithms makes it difficult to integrate them in an automated platform to perform compound tasks. Yet, recent research has indicated the importance of the fusion of different techniques~\cite{Atrey:2010p3072}. But how can different algorithms interoperate, if there are no agreements or guidelines on how communication should happen? And how can a coordinating platform select algorithms based on their capabilities, in lack of a formal description detailing their preconditions and postconditions?
 
@@ -149,11 +150,13 @@ In this paper, we show how to lift multimedia algorithms to the level of Semanti
 
 We will explain our approach by three real-world multimedia use cases, each of which represents challenges that are currently not fully addressed by alternative techniques. They will illustrate the power of our method and hopefully convince the reader that its apparent simplicity accommodates far-reaching possibilities.
 
-The remainder of this paper is structured as follows: \todo{Describe remainder of the paper}. As a remark, we use the terms ``API" and ``(Web) service" synonymously.
+The remainder of this paper is structured as follows: Section~\ref{sec:related-work} gives an overview on Related Work. Section~\ref{sec:restful-multimedia-services} introduces RESTful Multimedia Web services. Section~\ref{sec:restdesc-semantic-description} describes our RESTdesc approach for semantic Web service description. Section~\ref{sec:restdesc-discovery} details how our approach can be used for automatic service discovery. Section~\ref{sec:adapting-to-change-and-errors} shows how our approach is able to adapt to change and react dynamically on errors. The paper terminates with Section~\ref{sec:conclusion-and-future-work}, which provides a conclusion and gives an outlook on Future Work.
+
+As a remark, we use the terms ``API" and ``(Web) service" synonymously.
 
 We have implemented a sample multimedia Web service with mock data that follows our description approach. It can be tested at \url{http://restdesc.no.de/}.
 
-\section{Related Work}
+\section{Related Work} \label{sec:related-work}
 %%%% Responsible: THOMAS %%%%
 \subsection{Web Service Description Language}
 The description of Web services has a long history. The XML-based Web Service Description Language~(WSDL, \cite{WSDL1, WSDL2}) provided one of the first models. WSDL focuses on the communicational aspect of Web services, looking from a message-oriented point of view. The details of the message format are written down in a very verbose way and concretized to actual bindings such as SOAP~\cite{SOAP} or plain HTTP~\cite{HTTP}. Finally, the description can contain endpoints which implement the specified bindings.
@@ -198,7 +201,7 @@ The XML-based OASIS standard Universal Description Discovery \& Integration (UDD
 
 While for various reasons out of scope of this paper UDDI could not gain the adoption its creators had hoped for, the overall idea of automatically being able to select a service from a (not necessarily central) registry of services still seems useful to us. We will show in Section~\ref{sec:restdesc-discovery} how we imagine this idea to work decentralized and dynamically using our approach.
 
-\section{RESTful Multimedia Services}
+\section{RESTful Multimedia Services} \label{sec:restful-multimedia-services}
 \label{RESTfulServices}
 %%%% Responsible: THOMAS %%%%
 When we say RESTful service invocation we refer to the following REST principles~\cite{FieldingREST}:
@@ -213,7 +216,7 @@ In RESTful APIs, resources are identified by URIs. A resource is to be different
 
 To make this clearer, we introduce two related services, one for face detection, and the other for face recognition. A user agent can upload a photo to the face detection service and use it to check for the existence of faces in the uploaded image. If faces are found, the user agent can use the face detection service to try to find out more details on the persons whose faces are contained in the image. Each image is considered a resource, for example represented by a binary image file (like \url{/photos/1}). Each potential face is a resource represented for example by an RDF document serialized in Turtle, or a cropped version of the entire image showing only the particular face (like \url{/photos/1/faces/1}). Each person is a resource represented for example by a string of the person's name (like \url{/photos/1/persons/1}). Some of the potential next steps are, for example, after detecting faces, a link to a service that allows for recognizing these faces, or starting from the first person on an image, a link to the next person on the image.
 
-\section{RESTdesc Semantic Description}
+\section{RESTdesc Semantic Description} \label{sec:restdesc-semantic-description}
 \label{RESTdesc}
 %%%% Responsible: RUBEN %%%%
 \subsection{Motivation}
@@ -461,21 +464,21 @@ By means of content negotiation, a description format understood by the client c
 \label{MainStory}
 \todo{The details of the service composition will have been handled in \ref{Composition}.}
 
-
+\begin{comment}
 \section{Linking with external services}
 %%%% Responsible: none yet %%%%
 % Maybe we should drop this. Future separate article?
 \subsection{\todo{Theory}}
 \subsection{\todo{Google Docs story 2}}
+\end{comment}
 
-
-\section{Adapting to change and errors}
+\section{Adapting to change and errors} \label{sec:adapting-to-change-and-errors}
 %%%% Responsible: none yet %%%%
 \subsection{\todo{Theory}}
 \subsection{\todo{Google Docs story 2}}
 
 
-\section{Conclusion}
+\section{Conclusion and Future Work} \label{sec:conclusion-and-future-work}
 %%%% Responsible: none yet %%%%
 
 \todo{RESTdesc builds on top of RESTful principles and consists of:
@@ -492,7 +495,7 @@ By means of content negotiation, a description format understood by the client c
 % Say that it is integrated, unlike OWL-S.
 
 
-\section*{Acknowledgements}
+\section*{Acknowledgements} \label{sec:acknowledgements}
 The authors wish to thank Niklas Lindstr\"om for his help with the CoIN vocabulary and Jos De Roo for his assistance with the EYE Semantic Web Reasoner.
 
 Thomas Steiner is partially funded by the EU FP7 I-SEARCH project (ref. 248296).
