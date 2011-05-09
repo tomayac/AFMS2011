@@ -274,7 +274,7 @@ With the syntax and required concepts in mind, we now look at existing recommend
 
 Since RESTful services are centered around correct use of the HTTP protocol, one of the obvious elements we need is a way to describe HTTP requests. The \emph{HTTP Vocabulary in RDF}~\cite{HTTPinRDF} is already widespread, despite its W3C Working Draft status. It defines all concepts to rigorously describe HTTP messages, their structure, and their relationships.
 
-The resource-oriented nature of RESTful services implies the use of descriptive URIs, based on a structure specific to each server. Therefore, we should be able to express the relationship between a resource and its URI. In an Internet-Draft, the IETF describes the concept of URI templates~\cite{URITemplate} to refer to a specific resource.
+The resource-oriented nature of RESTful services implies the use of descriptive URIs, based on a structure specific to each server. Therefore, we should be able to express the relationship between a resource and its URI. In an Internet-Draft, the IETF describes the concept of URI templates~\cite{URITemplate} to refer to a category of resources.
 
 \needspace{2em} Below is an example of a URI template for a person in a photograph:
 \begin{Verbatim}
@@ -380,7 +380,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \end{lstlisting}
 \end{figure}
 
-Listings~\ref{lst:PhotoUpload} to~\ref{lst:FaceRecognition} show example descriptions of other services on the same server. For photo upload (\autoref{lst:PhotoUpload}), we see the prerequisite is having an image. Note that the service description author is free to use any vocabulary, in this case the \emph{FOAF} ontology. Since the request URI is fixed, no template URI was used. The response, in contrast, will have a \Verb!Location! header with a URI containing the photo identifier. For the request, we specify the format of the \Verb!POST! body. Note how the precondition of photo retrieval (\autoref{lst:PhotoGet}) naturally follows from the postcondition of photo upload, hinting at a possible~causality.
+Listings~\ref{lst:PhotoUpload} to~\ref{lst:FaceRecognition} show example descriptions of other services on the same server. For photo upload (\autoref{lst:PhotoUpload}), we see the prerequisite is having an image. Note that the service description author is free to use any vocabulary, in this case the \emph{FOAF} ontology. Since the request URI is fixed, no URI template was used. The response, in contrast, will have a \Verb!Location! header with a URI containing the photo identifier. For the request, we specify the format of the \Verb!POST! body. Note how the precondition of photo retrieval (\autoref{lst:PhotoGet}) naturally follows from the postcondition of photo upload, hinting at a possible~causality.
 
 This effect is also visible in \autoref{lst:FaceDetection} and \autoref{lst:FaceRecognition}, which both demonstrate the ease of expressing complex conditions. The required expressions involve a complicated indirection (e.g., ``the photograph contains a region that depicts a person''), yet they can be understood quite easily, while the formal semantics are sound.
 
