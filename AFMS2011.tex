@@ -389,7 +389,37 @@ When we overlook all of the above, it becomes apparent that RESTdesc description
 
 \subsection{Automated interpretation and composition}
 \label{Composition}
-\todo{Tell why RESTdesc is ideal for composition.}
+An interesting fact about Notation3 implications is that, besides the \emph{descriptive/declarative} semantics we have used so far, they also entail \emph{operational} semantics. This means that, given a reasoner that is able to make \emph{modus~ponens} inferences, the following action takes place:
+\begin{equation}\label{eq:ModusPonens}
+	\frac{P \Rightarrow Q, P}{Q}
+\end{equation}
+This is a very relevant property for RESTdesc descriptions, which \emph{enables context-based service discovery}.
+
+For example, we might want to know what we can do on a server given we have an image. RESTdesc makes this a trivial task. \ref{eq:Image} expresses our current condition.
+\begin{equation}\label{eq:Image}
+	{\fontsize{8}{10}\texttt{<http://example.org/photo.jpg> a foaf:Image.}}
+\end{equation}
+It is also the precondition of photo upload (\autoref{lst:PhotoUpload}). Consequently, using modus ponens~\ref{eq:ModusPonens}, we can derive the postcondition of photo upload. Yet it does not stop there. The statements of the postcondition can also trigger other inferences. In the end, the result chain is:
+\begin{itemize}
+\item we can upload the photo, upon which it will receive an identifier
+\item we can use this identifier to receive the photo
+\item we can use this identifier to detect faces within it
+\item we can then ask the server to recognize these faces
+\end{itemize}
+In addition to \emph{what} steps we can take, the inference process also tells us \emph{how} to take this steps by listing the concrete HTTP requests.
+
+This and other examples can be verified online using the EYE Semantic Web reasoner~\cite{Euler} on the interactive RESTdesc website\footnote{
+\todo{I would point here to a starting point, containing links to the reasoning examples, as well as the node server example.}
+}.
+
+An even more interesting approach is to add a goal, in a addition to starting point~\ref{eq:Image}. If we indeed want to know who is depicted in the photograph, our query might be:
+\begin{equation*}\label{eq:Image}
+	\fontsize{7.8}{10}\texttt{<http://example.org/photo.jpg> foaf:depicts ?person.}
+\end{equation*}
+The proof of the reasoner for this query, forms a list of ordered steps to obtain the desired results, again with detailed instructions on how to execute these steps. This differs from the previous output, which was just an unordered list of possible actions. Here, the result is an actual execution plan.
+
+It is apparent that RESTdesc descriptions provide a powerful and instant way to deal with automated interpretation and composition of different web services.
+
 % Talk about operational semantics http://www.w3.org/DesignIssues/N3Logic
 % Phrase it like that the descriptions have the benefit of ALSO having operational semantics.
 
