@@ -289,7 +289,10 @@ While URI templates are still in draft, many implementations and applications ex
 
 Finally, we need a way to tie the URI templates to HTTP request parameters such as the request URI. Also, some additional template semantics are required, for instance to describe what the response body contains. Since such a vocabulary was not available yet, we created the \emph{HTTP template} ontology\footnote{Located at {\fontsize{8}{10}\url{http://purl.org/restdesc/uri-template}}.}.
 
-\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. The concepts unique to the server itself are expressed in a \emph{server-specific ontology}. The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template vocabulary to specify the URI template and the contents of the response.
+\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. The concepts unique to the server itself are expressed in a \emph{server-specific vocabulary}
+\footnote{
+It is not obligatory to detail the server-specific vocabulary in an ontology. Its consistent use across different descriptions may suffice for interpretation and composition.}.
+The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template vocabulary to specify the URI template and the contents of the response.
 
 Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. An alternative way to look at the implication is to state that the specified request only exists in presence of a photograph. The semantics of the quantification have been highlighted in \autoref{lst:PhotoGetQuantifiers}, which contains the same description with the explicit quantifier syntax. The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the URI template. \label{SemanticTemplateURI}
 
@@ -418,14 +421,7 @@ An even more interesting approach is to add a goal, in a addition to starting po
 \end{equation*}
 The proof of the reasoner for this query, forms a list of ordered steps to obtain the desired results, again with detailed instructions on how to execute these steps. This differs from the previous output, which was just an unordered list of possible actions. Here, the result is an actual execution plan.
 
-It is apparent that RESTdesc descriptions provide a powerful and instant way to deal with automated interpretation and composition of different web services.
-
-% Talk about operational semantics http://www.w3.org/DesignIssues/N3Logic
-% Phrase it like that the descriptions have the benefit of ALSO having operational semantics.
-
-% Tell understanding of server-specific ontology is not necessary for composition.
-
-% Mention we can also deal with changes over time, possibly referring to planning systems
+It is apparent that RESTdesc descriptions provide a powerful and instant way to deal with automated interpretation and composition of different Web services.
 
 
 \subsection{Compatibility and automatic translation}
