@@ -208,7 +208,7 @@ Furthermore, while \owls\ offers functional descriptions capable of automatic di
 % You could make me and my promotor happy by \cite{Verborgh:2011p4792} as an example of automated use of services ;)
 
 \subsection{Deriving a functional description}
-By now, it is clear that we aim to provide a semantic method to express the functionality of a service -- as well as its communication -- in a concise way that appeals to humans and can be processed automatically. The word ``semantic'' obviously hints at the Semantic Web~\cite{SemanticWeb} and its core language RDF~\cite{RDF}.
+By now, it is clear that we aim to provide a semantic method to express the functionality of a service---as well as its communication---in a concise way that appeals to humans and can be processed automatically. The word ``semantic'' obviously hints at the Semantic Web~\cite{SemanticWeb} and its core language RDF~\cite{RDF}.
 
 Let us first revise what we actually want to express. Continuing the example of \autoref{RESTfulServices}, an informal expression for photo retrieval could be:
 \begin{multline}\label{eq:Informal}
@@ -227,7 +227,7 @@ which is straightforward to represent in RDF:
 	\fontsize{8}{10}\texttt{:request :uri ("/photos/", :id);} \\[-.5em]
 	\fontsize{8}{10}\texttt{:response [ :represents [:photoId :id] ].}
 \end{multline}
-Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal} --~and thus its RDF counterpart~\ref{eq:NaiveRdf}~-- does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is broken, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences and should be dealt with formally.
+Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal}---and thus its RDF counterpart~\ref{eq:NaiveRdf}---does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is broken, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences and should be dealt with formally.
 
 Revising~\ref{eq:QuantifiedFormal} with quantifiers gives:
 \begin{multline}\label{eq:QuantifiedFormal}
@@ -237,7 +237,7 @@ Revising~\ref{eq:QuantifiedFormal} with quantifiers gives:
 	\land photoId(photo, id)
 \end{multline}
 
-\noindent However, this still remains insufficient, because the universal quantification introduces the claim that \emph{every} photograph in the world possesses an identifier---a false statement for the majority of photographs, with the exception of those uploaded to the server. Similarly, requests exist for such photographs only. Looking back at the informal expression~\ref{eq:Informal}, we now spot the --~again, implicit~-- assumption that the photograph we want to retrieve has a~known identifier.
+\noindent However, this still remains insufficient, because the universal quantification introduces the claim that \emph{every} photograph in the world possesses an identifier---a false statement for the majority of photographs, with the exception of those uploaded to the server. Similarly, requests exist for such photographs only. Looking back at the informal expression~\ref{eq:Informal}, we now spot the (again, implicit) assumption that the photograph we want to retrieve has a~known identifier.
 
 Therefore, our last revision of the formal expression takes into account this notion as follows:
 \begin{multline}\label{eq:Formal}
