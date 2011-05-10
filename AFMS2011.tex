@@ -14,7 +14,9 @@
 
 % listings and Verbatim environment
 \usepackage{fancyvrb}
-\RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\footnotesize}
+\usepackage{relsize}
+\RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\smaller}
+\renewcommand\UrlFont{\smaller\tt}
 \RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\fontsize{7.5pt}{9pt}}
 \usepackage{listings}
 \lstloadlanguages{SPARQL} 
