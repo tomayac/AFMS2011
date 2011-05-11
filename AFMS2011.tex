@@ -16,7 +16,6 @@
 \usepackage{fancyvrb}
 \usepackage{relsize}
 \RecustomVerbatimCommand{\Verb}{Verb}{fontsize=\smaller}
-\renewcommand\UrlFont{\smaller\tt}
 \RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\fontsize{7.5pt}{9pt}}
 \usepackage{listings}
 \lstloadlanguages{SPARQL} 
@@ -130,8 +129,9 @@
   ]
 
 
-% use Courier from this point onward (used CM for author e-mails)
+% use Courier from this point onward (used CM for author e-mails), and smaller in-text URIs
 \renewcommand{\ttdefault}{pcr}
+\renewcommand\UrlFont{\smaller\tt}
 
 
 %%%%%%%%%% abstract %%%%%%%%%%
@@ -497,8 +497,9 @@ The authors wish to thank Niklas Lindstr\"om for his help with the CoIN vocabula
 
 Thomas Steiner is partially funded by the EU FP7 I-SEARCH project (ref. 248296).
 
-% back to Computer Modern for URLs in bibliography
+% back to normal size Computer Modern for URLs in bibliography
 \renewcommand{\ttdefault}{cmvtt}
+\renewcommand\UrlFont\tt
 
 \bibliographystyle{splncs03}
 \bibliography{AFMS2011}
