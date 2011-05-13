@@ -191,7 +191,7 @@ Unfortunately, there is no obligation to use these conditions and the \owls\ sub
 Furthermore, while \owls\ offers functional descriptions capable of automatic discovery of the capabilities of a single service, it does not provide mechanisms to express its relation to other services. Also, descriptions contain redundancies and require a fair amount of vocabulary, even to express conceptually simple services, and rely on external groundings for technical implementations.
 
 \subsection{Linked Open Services}
-The obligation to make explicit the relation between input and output is present within the Linked Open Service~(LOS, \cite{Krummenacher:2010p5107}) principles. However, these principles also put constraints on how the service should behave, dictating its interaction pattern. In essence, it requires wrapping a SPARQL endpoint around service. While we have used a similar approach for multimedia algorithms in the past~\cite{Verborgh:2010p2746}, regular REST services offer far more flexibility and target more general Web data consumption.
+The obligation to make explicit the relation between input and output is present within the Linked Open Service~(LOS, \cite{Krummenacher:2010p5107}) principles. However, these principles also put constraints on how the service should behave, dictating its interaction pattern. In essence, it requires wrapping a SPARQL endpoint around a service. While we have used a similar approach for multimedia algorithms in the past~\cite{Verborgh:2010p2746}, regular REST services offer far more flexibility and target more general Web data consumption.
 
 \subsection{Resource Linking Language}
 The Resource Linking Language~(ReLL, \cite{Alarcon:2010p5515}) aims to provide a natural mapping from RESTful services to RDF. The authors recognize the issues regarding RESTful service descriptions in general and provide an excellent discussion thereof. ReLL differs from our approach in that it only offers \emph{``static description of RESTful services that does not cover [...] new resources or identification and access schemes''}, whereas we specifically aim to address these cases in the context of automated service discovery and consumption. Our work therefore strives to \emph{``include the set of preconditions that must be satisfied by a client to be able to consume a service''}, together with the postconditions that occur as a result of the service call, as detailed in \autoref{subsec:FunctionDescription}.
@@ -300,12 +300,12 @@ The resource-oriented nature of RESTful services implies the use of descriptive 
 \begin{Verbatim}
 http://example.org/photos/{photoId}/persons/{personId}
 \end{Verbatim}
-The identifiers between braces are variables, which can be assigned a value. For example, to get the person with identifier $3$ on photograph $241$, the URI becomes:
+The identifiers between braces are variables, which can be assigned a value. For example, to get the person with identifier $3$ on photograph $241$, the URI gets expanded to:
 \begin{Verbatim}
 http://example.org/photos/241/persons/3
 \end{Verbatim}
 
-While URI templates are still in draft, many implementations and applications exist. It is clear that we should include them in our design.
+While URI templates are still in draft, many implementations and applications exist. In consequence we decided that we should include them in our design.
 
 Finally, we need a way to tie the URI templates to HTTP request parameters such as the request URI. Also, some additional template semantics are required, for instance to describe what the response body contains. Since such a vocabulary was not available yet, we created the \emph{HTTP template} ontology\footnote{Located at {\fontsize{8}{10}\url{http://purl.org/restdesc/uri-template}}.}.
 
@@ -455,9 +455,82 @@ By means of content negotiation, a description format understood by the client c
 
 
 \section{RESTdesc Service Discovery} \label{sec:restdesc-discovery}
-%%%% Responsible: THOMAS %%%%
-\subsection{\todo{Theory}}
-\todo{While the previous section introduced the RESTdesc description format, this section details how we can start with a single URI and learn everything about the server.}
+In this section we will show with the help of the concrete example of a face detection and recognition API introduced before how starting from a single URI one can follow ones nose to explore the capabilities of an API.
+
+\subsection{Learning About Ones OPTIONS}
+In this section we describe how a concrete execution plan gets dynamically discovered by a user agent given the task to identify all persons on a given photo. The user agent first starts to check out its options on the Web service's base URI \url{/}, as shown in Listing~\ref{lst:BaseOPTIONS}. From there, the user agent discovers that there is a link of type ``index" to \url{/photos}, which in turn it checks its options on. As can be seen in Listing~\ref{lst:PhotosOPTIONS}, the user agent has indicated that it accepts responses of type ``text/n3; charset=utf-8", and therefore is given instructions that new items can be added to the index by means of a POST request. Next, the user agent uploads the photo to the server, and is notified that the photo has been stored at the location \url{/photos/1}, as given in the Location header. The user agent then executes an OPTIONS call to that location in order to find out what it can do with the uploaded photo. The response contains Notation3 instructions on how to detect potentially contained faces in the photo by performing a GET request to \url{/photos/1/faces}.  Each of the detected faces has a URI, for example \url{/photos/1/faces/1}, where a cropped image region of just that face is available, as extracted from the Link header. In addition to that, a different Link header reveals that the person behind the face can be recognized by navigating to \url{/photos/1/persons/1}.
+
+\begin{figure}[float=t!]
+\begin{lstlisting}[caption=Listing showing an OPTIONS call on an API's base URI., label=lst:BaseOPTIONS, escapechar=§]
+$ curl -i -H "Accept: text/n3; charset=utf-8" -X OPTIONS \\
+    http://restdesc.no.de
+HTTP/1.1 200 OK
+Link: <./>; rel=self,
+      <./photos>; rel=index; type=text/n3;charset=utf-8
+Allow: GET, OPTIONS      
+Connection: keep-alive
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}[float=h!]
+\begin{lstlisting}[caption=Listing showing an OPTIONS call on a discovered index path from an API's base URI while accepting text/n3 responses., label=lst:PhotosOPTIONS, escapechar=§]
+$ curl -i -H "Accept: text/n3; charset=utf-8" -X OPTIONS \\
+    http://restdesc.no.de/photos
+HTTP/1.1 200 OK
+Link: <./>;
+      rel=index;
+      rel=self
+Allow: GET, OPTIONS, POST      
+Content-Type: text/n3; charset=utf-8
+Content-Length: 241
+Connection: keep-alive
+
+{
+  ?photo a foaf:Image.
+  } => {
+  _:request http:methodName "POST";
+    http:requestURI "/photos";
+    http:body [ tmpl:formData ("photo=" ?photo) ];
+    http:resp [ tmpl:location ("/photos/" ?photoId) ].
+  ?photo :photoId _:photoId. }.
+}
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}[float=h!]
+\begin{lstlisting}[caption=Listing showing a POST call in order to upload a photo discovered via the Notation3 data from the previous request., label=lst:PhotoPOST, escapechar=§]
+$ curl -i -F "photo=@./obama-gillard.jpg" \\
+    http://restdesc.no.de/photos
+HTTP/1.1 100 Continue
+
+HTTP/1.1 201 Created
+Location: http://restdesc.no.de/photos/1
+Content-Type: text/html
+Content-Length: 115
+Connection: keep-alive
+
+Your photo was uploaded:
+<a href="http://restdesc.no.de/photos/1">
+  http://restdesc.no.de/photos/1
+</a>
+\end{lstlisting}
+\end{figure}
+
+\begin{figure}[float=h!]
+\begin{lstlisting}[caption=Listing showing an OPTIONS call in order to find out about ones options with a concrete photo., label=lst:PhotoOPTIONS, escapechar=§]
+$ curl -i -H "Accept: */*" -X OPTIONS \\
+    http://restdesc.no.de/photos/1
+HTTP/1.1 200 OK
+Content-Type: image/jpg
+Allow: GET, HEAD
+Link: <http://restdesc.no.de/restdesc/photos/1/faces>;
+      rel="http://dbpedia.org/resource/Face_detection";
+      title="contained faces";
+      type="text/n3"
+Content-Length: 372819
+Connection: keep-alive
+\end{lstlisting}
+\end{figure}
 
 \subsection{\todo{Google Docs story 1}}
 \label{MainStory}
