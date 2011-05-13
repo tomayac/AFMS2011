@@ -473,8 +473,17 @@ By means of content negotiation, a description format understood by the client c
 
 \section{Adapting to change and errors} \label{sec:adapting-to-change-and-errors}
 %%%% Responsible: Ruben %%%%
-\subsection{\todo{Theory}}
-\subsection{\todo{Google Docs story 2}}
+\subsection{Focus on runtime decisions}
+As a final step, we investigate how RESTdesc descriptions ensure clients can adapt to long-term changes and possible errors. RESTdesc is designed from start to be consumed at runtime and to make decisions only at the moment when this becomes necessary. We want to mimic the flexibility of human beings browsing the Web, who follow hyperlinks to achieve a predefined goal---which is perhaps adjusted along the way.
+
+% Change
+\subsection{Adaptive error handling}
+WSDL and \owls\ provided very detailed ways to specify error conditions and faults. This does not correspond to the human strategy when browsing the Web: we just try, and if something does not work out as expected, we continue, possibly aided by hyperlinks on last visited pages. The underlying rationale is simple: if we had to anticipate \emph{every} possible error (page not found, irrelevant information, network failure, \ldots), we might as well give up before we start. Consequently, our approach is to handle errors dynamically as they arise\footnote{This approach fits information retrieval well, which is our primary interest. In case of irreversible actions with harmful consequences, special care might be necessary. But then again, not all errors can be foreseen, which renders this topic inherently difficult and not generally solvable.}, guided by the service itself where applicable.
+
+An important benefit of this pragmatic error handling is that all causes can be dealt with in an uniform manner. Clients assume services will handle their request as described. If an exception or error should occur, it is detected and remedied, irrespective of whether it could have been expected. For example, a face detection request can fail for numerous reasons: the image does not exist or has been deleted, no faces detected in the image, the server is unavailable or crashes, \ldots\ The central idea is that there is no point in anticipating foreseeable errors, since errors can always occur. A~RESTdesc description details necessary preconditions for executing a request, but it does not strive to handle exceptional situations because it can never cover all of them.
+
+The REST practice of correctly using HTTP status codes forms the corner stone of error detection. They can precisely identify the source of the problem (client, request, or server), its temporal scope (temporary or or permanent), and offer additional information (even in case of success). What we suggest is that the service should supply hyperlinks that can help the client to remedy the problem, similar to service discovery in \autoref{sec:restdesc-discovery}. For example, depending on the error, the server lists photo uploading (image does not exist), an alternative algorithm (no faces detected), or another server (server unavailable) as solutions.
+% voorbeeld: herkenning faalt? => alternatieven
 
 
 \section{Conclusion and Future Work} \label{sec:conclusion-and-future-work}
