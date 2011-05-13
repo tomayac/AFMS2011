@@ -237,18 +237,18 @@ Let us first revise what we actually want to express. Continuing the example of 
     \textit{ and appending its identifier.}
 \end{multline}
 
-\noindent An intuitive formalization of the above would be
+\noindent An intuitive formalization of the above would be:
 \begin{multline}\label{eq:NaiveFormal}
     \makebox[5.2cm]{$hasUri(request, \{\mbox{``\!\Verb!/photos/!''}, id\})\, \land$} \\[-.2em]
     hasResponse(request, resp) \land represents(resp, photo)\\[-.2em]
     \land photoId(photo, id)
 \end{multline}
-which is straightforward to represent in RDF:
+This is straightforward to represent in RDF:
 \begin{multline}\label{eq:NaiveRdf}
     \fontsize{8}{10}\texttt{:request :uri ("/photos/", :id);} \\[-.5em]
     \fontsize{8}{10}\texttt{:response [ :represents [:photoId :id] ].}
 \end{multline}
-Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal}---and thus its RDF counterpart~\ref{eq:NaiveRdf}---does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is broken, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences and should be dealt with formally.
+Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal}---and thus its RDF counterpart~\ref{eq:NaiveRdf}---does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is broken, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences that should be dealt with formally.
 
 Revising~\ref{eq:QuantifiedFormal} with quantifiers gives:
 \begin{multline}\label{eq:QuantifiedFormal}
@@ -269,7 +269,7 @@ Therefore, our last revision of the formal expression takes into account this no
     \land\, represents(resp, photo)\makebox[3.38cm]{}
 \end{multline}
 
-The above expression now corresponds to the intended meaning of~\ref{eq:Informal}: that a representation of every photograph with an identifier can be retrieved by following the constructed URI. Now the issue of expressing~\ref{eq:Formal} in RDF remains. The original RDF specification~\cite{RDF} does not include a form of quantifiers. Although attempts have been made in the past (e.g., \cite{RDFQuantifiers}), the most successful is Tim Berners-Lee's Notation3~\cite{Notation3}, which as an added benefit also includes syntactical support for implications.
+The above expression now corresponds to the intended meaning of~\ref{eq:Informal}: that a representation of every photograph with an identifier can be retrieved by following the constructed URI. Now the issue of expressing~\ref{eq:Formal} in RDF remains. The original RDF specification~\cite{RDF} does not include a form of quantifiers. Although some attempts have been made in the past (e.g., \cite{RDFQuantifiers}), the most successful one is Tim Berners-Lee's Notation3~\cite{Notation3}, which as an added benefit also includes syntactical support for implications.
 
 Expressing~\ref{eq:Formal} in Notation3 gives:
 \begin{multline}\label{eq:FullNotation3}
@@ -293,7 +293,7 @@ This minimal syntax fully reflects the functionality of the service as intended 
 \subsection{RESTdesc description format}
 With the syntax and required concepts in mind, we now look at existing recommendations, proposals, and vocabularies that we can integrate to obtain an interchangeable description format.
 
-Since RESTful services are centered around correct use of the HTTP protocol, one of the obvious elements we need is a way to describe HTTP requests. The \emph{HTTP Vocabulary in RDF}~\cite{HTTPinRDF} is already widespread, despite its W3C Working Draft status. It defines all concepts to rigorously describe HTTP messages, their structure, and their relationships.
+Since RESTful services are centered around the correct use of the HTTP protocol, one of the obvious elements we need is a way to describe HTTP requests. The \emph{HTTP Vocabulary in RDF}~\cite{HTTPinRDF} is already widespread, and in addition to that also is in W3C Working Draft status. It defines all the necessary concepts to rigorously describe HTTP messages, their structure, and their relationships.
 
 The resource-oriented nature of RESTful services implies the use of descriptive URIs, based on a structure specific to each server. Therefore, we should be able to express the relationship between a resource and its URI. In an Internet-Draft, the IETF describes the concept of URI templates~\cite{URITemplate} to refer to a category of resources.
 
@@ -301,18 +301,18 @@ The resource-oriented nature of RESTful services implies the use of descriptive 
 \begin{Verbatim}
 http://example.org/photos/{photoId}/persons/{personId}
 \end{Verbatim}
-The identifiers between braces are variables, which can be assigned a value. For example, to get the person with identifier $3$ on photograph $241$, the URI gets expanded to:
+The identifiers between the curly braces are variables, which can be assigned a value. For example, to get the person with identifier $3$ on photograph $241$, the URI gets expanded to:
 \begin{Verbatim}
 http://example.org/photos/241/persons/3
 \end{Verbatim}
 
-While URI templates are still in draft, many implementations and applications exist. In consequence we decided that we should include them in our design.
+While URI templates are still in draft status, many implementations and applications exist. In consequence we decided that we should include them in our design.
 
 Finally, we need a way to tie the URI templates to HTTP request parameters such as the request URI. Also, some additional template semantics are required, for instance to describe what the response body contains. Since such a vocabulary was not available yet, we created the \emph{HTTP template} ontology\footnote{Located at {\fontsize{8}{10}\url{http://purl.org/restdesc/uri-template}}.}.
 
-\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. The concepts unique to the server itself are expressed in a \emph{server-specific vocabulary}
+\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. The concepts unique to the server itself \todo{Ruben, can you explain what "concepts unique to the server itself" concretely means?} are expressed in a \emph{server-specific vocabulary}
 \footnote{It is not obligatory to detail the server-specific vocabulary in an ontology. Its consistent use across different descriptions may suffice for interpretation and composition.}.
-The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template vocabulary to specify the URI template and the contents of the response.
+The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template ontology to specify the URI template, and the contents of the response.
 
 Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. An alternative way to look at the implication is to state that the specified request only exists in presence of a photograph. The semantics of the quantification have been highlighted in \autoref{lst:PhotoGetQuantifiers}, which contains the same description with the explicit quantifier syntax. The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the URI template. \label{SemanticTemplateURI}
 
@@ -405,7 +405,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \vspace{-2em}
 \end{figure}
 
-Listings~\ref{lst:PhotoUpload} to~\ref{lst:FaceRecognition} show example descriptions of other services on the same server. For photo upload (\autoref{lst:PhotoUpload}), we see the prerequisite is having an image. Note that the service description author is free to use any vocabulary, in this case the \emph{FOAF} ontology. Since the request URI is fixed, no URI template was used. The response, in contrast, will have a \Verb!Location! header with a URI containing the photo identifier. For the request, we specify the format of the \Verb!POST! body. Note how the precondition of photo retrieval (\autoref{lst:PhotoGet}) naturally follows from the postcondition of photo upload, hinting at a possible~causality.
+Listings~\ref{lst:PhotoUpload} to~\ref{lst:FaceRecognition} \todo{Ruben, can you maybe add a note that prefixes were left out due to space restrictions, or add the prefixes? I let you decide what you prefer :-)} show example descriptions of other services on the same server. For photo upload (\autoref{lst:PhotoUpload}), we see the prerequisite is to have an image. Note that the service description author is free to use any vocabulary, in this case the \emph{FOAF} ontology~\cite{FOAF}. Since the request URI is fixed, no URI template was used. The response, in contrast, will have a \Verb!Location! header with a URI containing the photo identifier. For the request, we specify the format of the \Verb!POST! body. Note how the precondition of photo retrieval (\autoref{lst:PhotoGet}) naturally follows from the postcondition of photo upload, hinting at a possible~causality.
 
 This effect is also visible in \autoref{lst:FaceDetection} and \autoref{lst:FaceRecognition}, which both demonstrate the ease of expressing complex conditions. The required expressions involve a complicated indirection (e.g., ``the photograph contains a region that depicts a person''), yet they can be understood quite easily, while the formal semantics are sound.
 
@@ -419,7 +419,7 @@ An interesting fact about Notation3 implications is that, besides the \emph{desc
 \end{equation}
 This is a very relevant property for RESTdesc descriptions, which \emph{enables context-based service discovery}.
 
-For example, we might want to know what we can do on a server given we have an image. RESTdesc makes this a trivial task. \ref{eq:Image} expresses our current condition.
+For example, we might want to know what we can do on a server given the situation where we have an image. RESTdesc makes this a trivial task. The triple \ref{eq:Image} \todo{Ruben, this gets resolved to 4.4 where it should be (9), is there a better way to reference the triple below, or shall we just remove the reference?} below expresses our current condition:
 \begin{equation}\label{eq:Image}
     {\fontsize{8}{10}\texttt{<http://example.org/photo.jpg> a foaf:Image.}}
 \end{equation}
@@ -434,11 +434,11 @@ In addition to \emph{what} steps we can take, the inference process also tells u
 
 These and other examples can be verified online using the EYE Semantic Web reasoner~\cite{Euler} on the interactive RESTdesc test website$^{\ref{RESTdescWebsite}}$.
 
-An even more interesting approach is to add a goal, in a addition to starting point~\ref{eq:Image}. If we indeed want to know who is depicted in the photograph, our query might~be:
+An even more interesting approach is to add a goal, in addition to starting point~\ref{eq:Image} \todo{Ruben, again this gets expanded to 4.4 instead of (9)}. If we indeed want to know who is depicted in the photograph, our query might~be:
 \begin{equation*}\label{eq:Image}
     \fontsize{7.8}{10}\texttt{<http://example.org/photo.jpg> foaf:depicts ?person.}
 \end{equation*}
-The proof of the reasoner for this query, forms a list of ordered steps to obtain the desired results, again with detailed instructions on how to execute these steps. This differs from the previous output, which was just an unordered list of possible actions. Here, the result is an actual execution plan, instructing to first upload the photo, then ask for detected faces, and finally find out the associated persons.
+The proof of the reasoner for this query forms a list of ordered steps to obtain the desired results, again with detailed instructions on how to execute these steps. This differs from the previous output, which was just an unordered list of possible actions. Here, the result is an actual execution plan, instructing to first upload the photo, then ask for detected faces, and finally find out the associated persons.
 
 It is apparent that RESTdesc descriptions provide a powerful and instant way to deal with automated interpretation and composition of different Web services.
 
@@ -446,7 +446,7 @@ It is apparent that RESTdesc descriptions provide a powerful and instant way to 
 \subsection{Compatibility and automatic translation}
 One outstanding property of RESTdesc is that it, capturing the complete functionality of the service, can be converted into a multitude of other formats. After all, the functionality description, combined with invocation information, contains the maximal superset of what needs to be known to machines about a service.
 
-Is it important to realize that RESTdesc starts from RESTful principles, from which the invocation aspects follow. For instance, the fact that \Verb!GET! and \Verb!HEAD! operations are safe and idempotent, whereas \Verb!POST! is not, conveys necessary information to generate certain descriptions.
+Is it important to realize that RESTdesc starts from RESTful principles from which the invocation aspects follow. For instance, the fact that \Verb!GET! and \Verb!HEAD! operations are safe and idempotent, whereas \Verb!POST! is not, conveys necessary information to generate certain descriptions.
 
 One relevant example is the translation to the Composition of Identifier Names vocabulary~(CoIN, \cite{CoIN}). The CoIN vocabulary \emph{``defines a set of classes and properties used to describe what properties of a resource constitute components of a URI''}. This information is present in the RESTdesc service descriptions, due to its use of URI templates which are bound to concrete variables. Automatic translation can be seen in action on our website$^{\ref{RESTdescWebsite}}$.
 
