@@ -21,7 +21,7 @@
 \lstloadlanguages{SPARQL} 
 \lstdefinelanguage{RDF}{morekeywords=@prefix}
 \lstset{frame=bottomline,captionpos=b,numberbychapter=false,
-        aboveskip=0em,belowskip=.5em,abovecaptionskip=.3em,belowcaptionskip=.6em,
+        aboveskip=0em,belowskip=.5em,abovecaptionskip=.3em,belowcaptionskip=1em,
         basicstyle=\ttfamily\fontsize{7pt}{8.5pt}\selectfont,stringstyle=\em,showstringspaces=false}
 
 % for multiline comments
@@ -316,6 +316,7 @@ The precondition thus states that an object with a photo identifier is required.
 Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. An alternative way to look at the implication is to state that the specified request only exists in presence of a photograph. The semantics of the quantification have been highlighted in \autoref{lst:PhotoGetQuantifiers}, which contains the same description with the explicit quantifier syntax. The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the URI template. \label{SemanticTemplateURI}
 
 \begin{figure}[float=t!]
+\vspace{.5em}
 \begin{lstlisting}[caption=RESTdesc description of photo retrieval,
                    label=lst:PhotoGet, escapechar=§]
 @prefix : <http://a.example.org/ontology#>.
@@ -384,7 +385,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \end{lstlisting}
 
 \begin{lstlisting}[caption=RESTdesc description of face recognition,
-                   label=lst:FaceRecognition, escapechar=§, belowskip=-1em]
+                   label=lst:FaceRecognition, escapechar=§, belowcaptionskip=0em]
 {
   _:region foaf:depicts ?person;
            :regionId ?regionId;
@@ -400,6 +401,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
   ?person foaf:name _:personName.
 }.
 \end{lstlisting}
+\vspace{-2em}
 \end{figure}
 
 Listings~\ref{lst:PhotoUpload} to~\ref{lst:FaceRecognition} show example descriptions of other services on the same server. For photo upload (\autoref{lst:PhotoUpload}), we see the prerequisite is having an image. Note that the service description author is free to use any vocabulary, in this case the \emph{FOAF} ontology. Since the request URI is fixed, no URI template was used. The response, in contrast, will have a \Verb!Location! header with a URI containing the photo identifier. For the request, we specify the format of the \Verb!POST! body. Note how the precondition of photo retrieval (\autoref{lst:PhotoGet}) naturally follows from the postcondition of photo upload, hinting at a possible~causality.
