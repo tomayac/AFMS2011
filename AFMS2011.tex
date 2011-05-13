@@ -154,7 +154,7 @@ Can a client just follow its nose---like humans do---and access the right servic
 
 The remainder of this paper is structured as follows: Section~\ref{sec:related-work} gives an overview on related work. Section~\ref{sec:restful-multimedia-services} introduces RESTful Multimedia Web services. Section~\ref{sec:restdesc-semantic-description} describes our RESTdesc approach for Semantic Web service description. Section~\ref{sec:restdesc-discovery} details how our approach can be used for automatic service discovery. Section~\ref{sec:adapting-to-change-and-errors} shows how our approach is able to adapt to change and react dynamically on errors. The paper terminates with Section~\ref{sec:conclusion-and-future-work}, which provides a conclusion and gives an outlook on future work.
 
-We have implemented a sample multimedia Web service with mock data that follows our description approach. It can be tested at \url{http://restdesc.no.de/}.
+We have implemented a sample multimedia Web service with mock data that follows our description approach. It is available at our RESTdesc testing website\footnote{\label{RESTdescWebsite}RESTdesc testing website: \url{http://restdesc.no.de/}.}.
 
 \section{Related Work} \label{sec:related-work}
 %%%% Responsible: THOMAS %%%%
@@ -431,12 +431,9 @@ It is also the precondition of photo upload (\autoref{lst:PhotoUpload}). Consequ
 \end{itemize}
 In addition to \emph{what} steps we can take, the inference process also tells us \emph{how} to take this steps by listing the concrete HTTP requests.
 
-This and other examples can be verified online using the EYE Semantic Web reasoner~\cite{Euler} on the interactive RESTdesc website\footnote{
-\label{OnlineExamples}
-\todo{I would point here to a starting point, containing links to the reasoning examples, as well as the node server example.}
-}.
+These and other examples can be verified online using the EYE Semantic Web reasoner~\cite{Euler} on the interactive RESTdesc test website$^{\ref{RESTdescWebsite}}$.
 
-An even more interesting approach is to add a goal, in a addition to starting point~\ref{eq:Image}. If we indeed want to know who is depicted in the photograph, our query might be:
+An even more interesting approach is to add a goal, in a addition to starting point~\ref{eq:Image}. If we indeed want to know who is depicted in the photograph, our query might~be:
 \begin{equation*}\label{eq:Image}
     \fontsize{7.8}{10}\texttt{<http://example.org/photo.jpg> foaf:depicts ?person.}
 \end{equation*}
@@ -450,7 +447,7 @@ One outstanding property of RESTdesc is that it, capturing the complete function
 
 Is it important to realize that RESTdesc starts from RESTful principles, from which the invocation aspects follow. For instance, the fact that \Verb!GET! and \Verb!HEAD! operations are safe and idempotent, whereas \Verb!POST! is not, conveys necessary information to generate certain descriptions.
 
-One relevant example is the translation to the Composition of Identifier Names vocabulary~(CoIN, \cite{CoIN}). The CoIN vocabulary \emph{``defines a set of classes and properties used to describe what properties of a resource constitute components of a URI''}. This information is present in the RESTdesc service descriptions, due to its use of URI templates which are bound to concrete variables. Automatic translation can be seen in action online$^\textrm{\ref{OnlineExamples}}$.
+One relevant example is the translation to the Composition of Identifier Names vocabulary~(CoIN, \cite{CoIN}). The CoIN vocabulary \emph{``defines a set of classes and properties used to describe what properties of a resource constitute components of a URI''}. This information is present in the RESTdesc service descriptions, due to its use of URI templates which are bound to concrete variables. Automatic translation can be seen in action on our website$^{\ref{RESTdescWebsite}}$.
 
 It is also possible to generate WSDL, WADL, or \owls\ descriptions, as all the information---besides human-targeted elements such as labels and textual information---are readily available. In fact, human-centric textual descriptions could also be generated based on RESTdesc and ontological information. \autoref{lst:PhotoGet} could translate to ``given an identifier, retrieves a representation of the photograph with that identifier.''
 
