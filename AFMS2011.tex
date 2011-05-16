@@ -465,8 +465,8 @@ An execution plan can be dynamically created by a user agent that is given a con
 \todo{Ruben, could you please proof-read the listings for correctness? Thanks!}
 \begin{figure}[float=t!]
 \begin{lstlisting}[caption=Listing showing an OPTIONS call on an API's base URI., label=lst:BaseOPTIONS, escapechar=§]
-$ curl -i -H "Accept: text/n3; charset=utf-8" -X OPTIONS \\
-    http://restdesc.no.de
+$ curl -i -H "Accept: text/n3; charset=utf-8" \\
+       -X OPTIONS http://restdesc.no.de
 HTTP/1.1 200 OK
 Link: <./>; rel=self,
       <./photos>; rel=index; type=text/n3;charset=utf-8
@@ -477,8 +477,8 @@ Connection: keep-alive
 
 \begin{figure}[float=h!]
 \begin{lstlisting}[caption=Listing showing an OPTIONS call on a discovered index path from an API's base URI while accepting text/n3 responses., label=lst:PhotosOPTIONS, escapechar=§]
-$ curl -i -H "Accept: text/n3; charset=utf-8" -X OPTIONS \\
-    http://restdesc.no.de/photos
+$ curl -i -H "Accept: text/n3; charset=utf-8" \\
+       -X OPTIONS http://restdesc.no.de/photos
 HTTP/1.1 200 OK
 Link: <./>;
       rel=index;
@@ -516,7 +516,7 @@ Connection: keep-alive
 \begin{figure}[float=h!]
 \begin{lstlisting}[caption=Listing showing a POST call in order to upload a photo discovered via the Notation3 data from the previous request., label=lst:PhotoPOST, escapechar=§]
 $ curl -i -F "photo=@./obama-gillard.jpg" \\
-    http://restdesc.no.de/photos
+       http://restdesc.no.de/photos
 HTTP/1.1 100 Continue
 
 HTTP/1.1 201 Created
@@ -535,7 +535,7 @@ Your photo was uploaded:
 \begin{figure}[float=h!]
 \begin{lstlisting}[caption=Listing showing an OPTIONS call in order to find out about ones options with a concrete photo., label=lst:PhotoOPTIONS, escapechar=§]
 $ curl -i -H "Accept: */*" -X OPTIONS \\
-    http://restdesc.no.de/photos/1
+       http://restdesc.no.de/photos/1
 HTTP/1.1 200 OK
 Content-Type: image/jpg
 Allow: GET, HEAD
@@ -566,7 +566,8 @@ Connection: keep-alive
 =>
 {
   _:request http:methodName "GET";
-    tmpl:requestURI ("/photos/" ?photoId "/people/" ?regionId);
+    tmpl:requestURI
+        ("/photos/" ?photoId "/people/" ?regionId);
     http:resp [ tmpl:represents ?person ].
   ?person foaf:name _:personName.
 }.
