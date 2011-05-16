@@ -21,7 +21,7 @@
 \lstloadlanguages{SPARQL} 
 \lstdefinelanguage{RDF}{morekeywords=@prefix}
 \lstset{frame=bottomline,captionpos=b,numberbychapter=false,
-        aboveskip=0em,belowskip=.5em,abovecaptionskip=.3em,belowcaptionskip=1em,
+        aboveskip=0em,belowskip=.5em,abovecaptionskip=.3em,belowcaptionskip=.5em,
         basicstyle=\ttfamily\fontsize{7pt}{8.5pt}\selectfont,stringstyle=\em,showstringspaces=false}
 
 % for multiline comments
@@ -317,7 +317,7 @@ The precondition thus states that an object with a photo identifier is required.
 Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. An alternative way to look at the implication is to state that the specified request only exists in presence of a photograph. The semantics of the quantification have been highlighted in \autoref{lst:PhotoGetQuantifiers}, which contains the same description with the explicit quantifier syntax (prefixes from this and further listings omitted for clarity). The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the URI template. \label{SemanticTemplateURI}
 
 \begin{figure}[float=t!]
-\vspace{.5em}
+\vspace{.3em}
 \begin{lstlisting}[caption=RESTdesc description of photo retrieval,
                    label=lst:PhotoGet, escapechar=§]
 @prefix : <http://restdesc.no.de/ontology#>.
@@ -402,7 +402,6 @@ Contrary to its appearance, this short description conveys a vast amount of sema
   ?person foaf:name _:personName.
 }.
 \end{lstlisting}
-\vspace{-2em}
 \end{figure}
 
 Listings~\ref{lst:PhotoUpload} to~\ref{lst:FaceRecognition} show example descriptions of other services on the same server. For photo upload (\autoref{lst:PhotoUpload}), we see the prerequisite is to have an image. Note that the service description author is free to use any vocabulary, in this case the \emph{FOAF} ontology~\cite{FOAF}. Since the request URI is fixed, no URI template was used. The response, in contrast, will have a \Verb!Location! header with a URI containing the photo identifier. For the request, we specify the format of the \Verb!POST! body. Note how the precondition of photo retrieval (\autoref{lst:PhotoGet}) naturally follows from the postcondition of photo upload, hinting at a possible~causality.
@@ -464,7 +463,7 @@ Web Service discovery can be seen as the process of locating a suitable Web serv
 An execution plan can be dynamically created by a user agent that is given a concrete task like ``identify all persons in a certain photo" (see~\ref{Composition}). The user agent first starts to check out its options on the Web service's base URI \url{/}, as shown in Listing~\ref{lst:BaseOPTIONS}. From there, the user agent discovers that there is a link of type ``index" to \url{/photos}, which in turn it checks its options on. As can be seen in Listing~\ref{lst:PhotosOPTIONS}, the user agent has indicated that it accepts responses of type ``text/n3; charset=utf-8", and therefore is given instructions that new items can be added to the index by means of a POST request. Next, the user agent uploads the photo to the server, and is notified that the photo has been stored at the location \url{/photos/1}, as stated in the Location header of the 201 Created-type response. The user agent then executes an OPTIONS call to that location in order to find out what it can do with the uploaded photo. The response contains Notation3 instructions on how to detect potentially contained faces in the photo by performing a GET request to \url{/photos/1/faces}.  Upon execution of that GET call, each of the detected faces has its own URI, for example \url{/photos/1/faces/1}, where a cropped image region of just that face is available, as can be derived from the Link header. In addition to that, a different Link header reveals that the persons behind each of the faces can be recognized by navigating to the particular person's URI, for example \url{/photos/1/persons/1}.
 \todo{Ruben, could you please proof-read the listings for correctness? Thanks!}
 \begin{figure}[float=t!]
-\begin{lstlisting}[caption=Listing showing an OPTIONS call on an API's base URI., label=lst:BaseOPTIONS, escapechar=§]
+\begin{lstlisting}[caption=An OPTIONS call on an API's base URI, label=lst:BaseOPTIONS, escapechar=§]
 $ curl -i -H "Accept: text/n3; charset=utf-8" \\
        -X OPTIONS http://restdesc.no.de
 HTTP/1.1 200 OK
@@ -476,7 +475,7 @@ Connection: keep-alive
 \end{figure}
 
 \begin{figure}[float=h!]
-\begin{lstlisting}[caption=Listing showing an OPTIONS call on a discovered index path from an API's base URI while accepting text/n3 responses., label=lst:PhotosOPTIONS, escapechar=§]
+\begin{lstlisting}[caption=An OPTIONS call on a discovered index path from an API's base URI while accepting text/n3 responses, label=lst:PhotosOPTIONS, escapechar=§]
 $ curl -i -H "Accept: text/n3; charset=utf-8" \\
        -X OPTIONS http://restdesc.no.de/photos
 HTTP/1.1 200 OK
@@ -514,7 +513,7 @@ Connection: keep-alive
 \end{figure}
 
 \begin{figure}[float=h!]
-\begin{lstlisting}[caption=Listing showing a POST call in order to upload a photo discovered via the Notation3 data from the previous request., label=lst:PhotoPOST, escapechar=§]
+\begin{lstlisting}[caption=A POST call in order to upload a photo discovered via the Notation3 data from the previous request, label=lst:PhotoPOST, escapechar=§]
 $ curl -i -F "photo=@./obama-gillard.jpg" \\
        http://restdesc.no.de/photos
 HTTP/1.1 100 Continue
@@ -533,7 +532,7 @@ Your photo was uploaded:
 \end{figure}
 
 \begin{figure}[float=h!]
-\begin{lstlisting}[caption=Listing showing an OPTIONS call in order to find out about ones options with a concrete photo., label=lst:PhotoOPTIONS, escapechar=§]
+\begin{lstlisting}[caption=An OPTIONS call to find out about ones options with a concrete photo, label=lst:PhotoOPTIONS, escapechar=§]
 $ curl -i -H "Accept: */*" -X OPTIONS \\
        http://restdesc.no.de/photos/1
 HTTP/1.1 200 OK
