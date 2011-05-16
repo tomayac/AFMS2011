@@ -461,7 +461,7 @@ Web Service discovery can be seen as the process of locating a suitable Web serv
 
 \subsection{Learning About Ones OPTIONS} \label{MainStory}
 An execution plan can be dynamically created by a user agent that is given a concrete task like ``identify all persons in a certain photo" (see~\ref{Composition}). The user agent first starts to check out its options on the Web service's base URI \url{/}, as shown in Listing~\ref{lst:BaseOPTIONS}. From there, the user agent discovers that there is a link of type ``index" to \url{/photos}, which in turn it checks its options on. As can be seen in Listing~\ref{lst:PhotosOPTIONS}, the user agent has indicated that it accepts responses of type ``text/n3; charset=utf-8", and therefore is given instructions that new items can be added to the index by means of a POST request. Next, the user agent uploads the photo to the server, and is notified that the photo has been stored at the location \url{/photos/1}, as stated in the Location header of the 201 Created-type response. The user agent then executes an OPTIONS call to that location in order to find out what it can do with the uploaded photo. The response contains Notation3 instructions on how to detect potentially contained faces in the photo by performing a GET request to \url{/photos/1/faces}.  Upon execution of that GET call, each of the detected faces has its own URI, for example \url{/photos/1/faces/1}, where a cropped image region of just that face is available, as can be derived from the Link header. In addition to that, a different Link header reveals that the persons behind each of the faces can be recognized by navigating to the particular person's URI, for example \url{/photos/1/persons/1}.
-\todo{Ruben, could you please proof-read the listings for correctness? Thanks!}
+
 \begin{figure}[float=t!]
 \begin{lstlisting}[caption=An OPTIONS call on an API's base URI, label=lst:BaseOPTIONS, escapechar=§]
 $ curl -i -H "Accept: text/n3; charset=utf-8" \\
@@ -484,10 +484,10 @@ Link: <./>;
       rel=self
 Allow: GET, OPTIONS, POST      
 Content-Type: text/n3; charset=utf-8
-Content-Length: 241
+Content-Length: 242
 Connection: keep-alive
 
-@prefix : <http://a.example.org/ontology#>.
+@prefix : <http://restdesc.no.de/ontology#>.
 @prefix http: <http://www.w3.org/2006/http#>.
 @prefix tmpl: <http://purl.org/restdesc/http-template#>.
 @prefix foaf: <http://xmlns.com/foaf/>.
