@@ -112,7 +112,7 @@
 
 \title{Description and Interaction of RESTful Services for Automatic~Discovery and Execution}
 \ifthenelse{\boolean{showauthors}}
-{\author{Ruben Verborgh$^{1}$ \and Thomas Steiner$^{2}$ \and Rik Van de Walle$^{1}$ \and Joaquim Gabarr\'{o} Vall\'{e}s$^{2}$}
+{\author{Ruben Verborgh$^{1}$ \and Thomas Steiner$^{2}$ \and Davy Van Deursen$^{1}$ \and Rik Van de Walle$^{1}$ \and Joaquim Gabarr\'{o} Vall\'{e}s$^{2}$}
 \institute{Ghent University -- IBBT, ELIS -- Multimedia Lab\\Gaston Crommenlaan 8 bus 201, B-9050 Ledeberg-Ghent, Belgium\\
 \urldef{\emails}\path|{ruben.verborgh,rik.vandewalle}@ugent.be|\emails\\
 \url{http://multimedialab.elis.ugent.be/}
@@ -121,7 +121,7 @@
 \urldef{\emails}\path|tsteiner@lsi.upc.edu|\emails\\
 \url{http://www.lsi.upc.edu/}
 }}
-{\author{\institute{}\vspace{3.5cm}}}
+{\author{\institute{}\vspace{2.2cm}}}
 
 \twocolumn[
   \begin{@twocolumnfalse}
@@ -213,9 +213,9 @@ When we say RESTful service invocation, we refer to the following REST principle
 \item When layered systems (like load-balancing) are used, this fact must not be exposed to the API user.
 \end{itemize}
 
-In RESTful APIs, resources are identified by URIs. A resource is to be differentiated from its representation. For example, a set of RDF triples (the resource) might be represented in different serializations (syntaxes), such as RDF/XML or Turtle. When one of these representations gets manipulated, there is enough information to manipulate the represented resource, given the permission to do so. Messages need to be self-descriptive, for example, the media type of a message needs to make clear what can be done with this message. Each representation needs to communicate relevant related resources, or next steps the client can take at each state.
+In RESTful APIs, resources are identified by URIs. A~resource is to be differentiated from its representation. For example, a set of RDF triples (the resource) might be represented in different serializations (syntaxes), such as RDF/XML or Turtle. When one of these representations gets manipulated, there is enough information to manipulate the represented resource, given the permission to do so. Messages need to be self-descriptive, for example, the media type of a message needs to make clear what can be done with this message. Each representation needs to communicate relevant related resources, or next steps the client can take at each state.
 
-To make this clearer, we introduce two related multimedia services, one for face detection, and the other for face recognition. A user agent can upload a photo to the face detection service and use it to check for the existence of faces in the uploaded image. If faces are found, the user agent can use the face detection service to try to find out more details on the persons whose faces are contained in the image. Each image is considered a resource, for example represented by a binary image file (like \url{/photos/1}). Each face is a resource, for example represented by an RDF document serialized in Turtle, or a cropped version of the entire image showing only the particular face (like \url{/photos/1/faces/1}). Each person is a resource, for example represented by a string of the person's name (like \url{/photos/1/persons/1}). Some of the potential next steps after detecting faces could be, to follow a link to a Web service that allows for recognizing these faces, or starting from the first person on an image, to follow a link to the next person on the image. We will use these two sample Web services, namely a face detection and a face recognition Web service, throughout the paper.
+To make this clearer, we introduce two related multimedia services, one for face detection, and the other for face recognition. A user agent can upload a photo to the face detection service and use it to check for the existence of faces in the uploaded image. If faces are found, the user agent can use the face recognition service to try to find out more details on the persons whose faces are contained in the image. Each image is considered a resource, for example represented by a binary image file (like \url{/photos/1}). Each face is a resource, for example represented by an RDF document serialized in Turtle, or a cropped version of the entire image showing only the particular face (like \url{/photos/1/faces/1}). Each person is a resource (like \url{/photos/1/persons/1}), for example represented by a string of the person's name. Some of the potential next steps after detecting faces could be, to follow a link to a Web service that allows for recognizing these faces, or starting from the first person on an image, to follow a link to the next person on the image. We will use these two sample Web services, namely a face detection and a face recognition Web service, throughout the paper.
 
 \section{RESTdesc Semantic Description} \label{sec:restdesc-semantic-description}
 \label{RESTdesc}
@@ -223,7 +223,7 @@ To make this clearer, we introduce two related multimedia services, one for face
 \subsection{Motivation}
 The answer to the question whether Semantic Web service description and Web service discovery are necessary needs to be split up in two parts.
 
-On the one hand there is the question whether Web service description is needed. In RESTful systems, the common opinion is that each message should be self-descriptive enough so that user agents can make sense of each message, given a documented media type that the message is serialized in. On a pure technical layer this works well. For example, let us imagine a very simple image search engine that simply returns the most adequate image of media type \texttt{image/gif} as the result to a query, similar to Google's ``I'm feeling lucky" functionality. This gives the user agent enough information to process the response with its Graphics Interchange Format (GIF) library, however, a priori it is not clear that the image stands in a relation to a search query that the user agent has used as an input. OpenSearch~\cite{OpenSearch} defines a description format, which can be used to describe a search engine so that it can be used by search client applications. While we could perfectly use OpenSearch to describe this search API, only a slight variation of the API semantics renders using OpenSearch impossible. Therefore, let us imagine a Web font preview API where you give the name of a Web font as an input, and get a GIF image with a preview of the text ``The quick brown fox jumps over the lazy dog" in that very Web font as an output. There is currently no way to describe such API, and yet it might be desirable for a Web font vendor to announce its availability. 
+On the one hand there is the question whether Web service description is needed. In RESTful systems, the common opinion is that each message should be self-descriptive enough so that user agents can make sense of each message, given a documented media type that the message is serialized in. On a pure technical layer this works well. For example, let us imagine a very simple image search engine that simply returns the most adequate image of media type \Verb!image/gif! as the result to a query, similar to Google's \emph{``I'm feeling lucky"} functionality. This gives the user agent enough information to process the response with its Graphics Interchange Format (GIF) library, however, a priori it is not clear that the image stands in a relation to a search query that the user agent has used as an input. Therefore OpenSearch~\cite{OpenSearch} defines a description format, which can be used to describe a search engine so that it can be used by search client applications. While we could perfectly use OpenSearch to describe this search API, even slight variations of the API semantics render its use impossible. For instance, let us imagine a Web font preview API where you give the name of a Web font as an input, and get a GIF image with a preview of the text \emph{``The quick brown fox jumps over the lazy dog"} in that very Web font as an output. There is currently no universal way to describe the exact functionality of such API, and yet it might be desirable for a Web font vendor to announce its availability. 
 
 The second question is whether automatic discovery of Web services is needed. The first approach for automatic service discovery was UDDI, outlined in Section~\ref{sec:uddi}. It was driven by the vision that central service registries would serve as so-called Green Pages for parties interested in a specific service. The problem with this approach, however, is that companies do not work this way. There is always a human being involved in the process\cite{UDDIDiscontinue}. We see the potential of service discovery in the generation and run-time supervision of automatic execution plans as outlined in~\cite{Verborgh:2011p4792}, a task that can highly profit from discoverable service descriptions.
 
@@ -247,7 +247,7 @@ Let us first revise what we actually want to express. Continuing the example of 
 \end{multline}
 This is straightforward to represent in RDF:
 \begin{multline}\label{eq:NaiveRdf}
-    \fontsize{8}{10}\texttt{:request :uri ("/photos/", :id);} \\[-.5em]
+    \fontsize{8}{10}\texttt{:request :uri ("/photos/" :id);} \\[-.5em]
     \fontsize{8}{10}\texttt{:response [ :represents [:photoId :id] ].}
 \end{multline}
 Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal}---and thus its RDF counterpart~\ref{eq:NaiveRdf}---does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is broken, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{some} request which returns the photograph with the identifier specified in its URI. It does however not convey the implicit intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences that should be dealt with formally.
@@ -271,7 +271,7 @@ Therefore, our last revision of the formal expression takes into account this no
     \land\, represents(resp, photo)\makebox[3.38cm]{}
 \end{multline}
 
-The above expression now corresponds to the intended meaning of~\ref{eq:Informal}: that a representation of every photograph with an identifier can be retrieved by following the constructed URI. Now the issue of expressing~\ref{eq:Formal} in RDF remains. The original RDF specification~\cite{RDF} does not include a form of quantifiers. Although some attempts have been made in the past (e.g., \cite{RDFQuantifiers}), the most successful one is Tim Berners-Lee's Notation3~\cite{Notation3}, which as an added benefit also includes syntactical support for implications.
+The above expression now corresponds to the intended meaning of~\ref{eq:Informal}: that a representation of every photograph with an identifier can be retrieved by following the constructed URI. Now the issue of expressing~\ref{eq:Formal} in RDF remains. The original RDF specification~\cite{RDF} does not include a form of quantifiers. Although some attempts have been made in the past (e.g., \cite{RDFQuantifiers}), the most successful intuitive is the W3C submission Notation3~(N3, \cite{Notation3}), which as an added benefit also includes syntactical support for implications.
 
 Expressing~\ref{eq:Formal} in Notation3 gives:
 \begin{multline}\label{eq:FullNotation3}
@@ -279,16 +279,16 @@ Expressing~\ref{eq:Formal} in Notation3 gives:
     \fontsize{8}{10}\texttt{@forSome :request.}\makebox[5.47cm]{}\\[-.5em]
     \fontsize{8}{10}\texttt{\{:photo :photoId :id.\}}\makebox[4.37cm]{}\\[-.5em]
     \fontsize{8}{10}\texttt{:implies}\makebox[5.47cm]{}\\[-.5em]
-    \fontsize{8}{10}\texttt{\{:request :uri ("/photos/", :id);}\makebox[2.5cm]{}\\[-.5em]
+    \fontsize{8}{10}\texttt{\{:request :uri ("/photos/" :id);}\makebox[2.5cm]{}\\[-.5em]
     \makebox[5.75cm]{\fontsize{8}{10}\texttt{:response [ :represents :photo ].\}.}}
 \end{multline}
 
 Note the automatic existential quantification of blank nodes. By turning the request also in a blank node and using the full expressive power of Notation3, we can conveniently write~\ref{eq:FullNotation3} as:
 \begin{multline}\label{eq:Notation3}
-    \makebox[3.44cm]{\fontsize{8}{10}\texttt{\{:photo :photoId :id.\}}}\\[-.5em]
+    \makebox[3.44cm]{\fontsize{8}{10}\texttt{\{?photo :photoId ?id.\}}}\\[-.5em]
     \fontsize{8}{10}\texttt{=>}\makebox[7.6cm]{}\\[-.5em]
-    \fontsize{8}{10}\texttt{\{:request :uri ("/photos/", :id);}\makebox[2.5cm]{}\\[-.5em]
-    \makebox[5.75cm]{\fontsize{8}{10}\texttt{:response [ :represents :photo ].\}.}}
+    \fontsize{8}{10}\texttt{\{\_:request :uri ("/photos/" ?id);}\makebox[2.5cm]{}\\[-.5em]
+    \makebox[5.48cm]{\fontsize{8}{10}\texttt{:response [ :represents ?photo ].\}.}}
 \end{multline}
 This minimal syntax fully reflects the functionality of the service as intended by~\ref{eq:Informal}.
 
@@ -312,11 +312,10 @@ While URI templates are still in draft status, many implementations and applicat
 
 Finally, we need a way to tie the URI templates to HTTP request parameters such as the request URI. Also, some additional template semantics are required, for instance to describe what the response body contains. Since such a vocabulary was not available yet, we created the \emph{HTTP template} ontology\footnote{Located at {\fontsize{8}{10}\url{http://purl.org/restdesc/uri-template}}.}.
 
-\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. Concepts detailing precise semantics of the service (in this case, face detection and recognition) are expressed in a \emph{server-specific vocabulary}
-\footnote{It is not obligatory to detail the server-specific vocabulary in an ontology. Its consistent use across different descriptions may suffice for interpretation and composition.} or by reusing publicly available vocabularies (here, for faces and people).
+\autoref{lst:PhotoGet} shows the final description of the photo retrieval service. On a high level, we see the precondition, followed by the request and the postcondition. Concepts detailing precise semantics of the service are expressed in a \emph{server-specific vocabulary}\footnote{It is not obligatory to detail the server-specific vocabulary in an ontology. Its consistent use across different descriptions may suffice for interpretation and composition.} (in this case, photo identifiers) or by reusing publicly available vocabularies (here, for people and depictions).
 The precondition thus states that an object with a photo identifier is required. In the postcondition, we use the HTTP vocabulary to describe a \Verb!GET! request and its associated response. Finally, we use the HTTP template ontology to specify the URI template, and the contents of the response.
 
-Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. An alternative way to look at the implication is to state that the specified request only exists in presence of a photograph. The semantics of the quantification have been highlighted in \autoref{lst:PhotoGetQuantifiers}, which contains the same description with the explicit quantifier syntax (prefixes from this and further listings omitted for clarity). The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the URI template. \label{SemanticTemplateURI}
+Contrary to its appearance, this short description conveys a vast amount of semantic information. Of course, most importantly, there is the explicit relation expressing precisely how the input relates to the output. An alternative way to look at the implication is to state that the specified request only exists in presence of a photograph. The semantics of the quantification have been highlighted in \autoref{lst:PhotoGetQuantifiers}, which contains the same description with the explicit quantifier syntax (prefixes from this and further listings omitted for clarity). The incorporation of the URI template is also particularly strong: the variables in the URI have been bound to the actual values that will be present during execution. Interesting here is that these variables, due to the server-specific ontology, do not only have an \emph{associated data type}, but \emph{fully linked semantics}. For instance, if the server describes the \Verb!photoId! predicate by specifying its range as integers and its domain as photographs, this information is propagated into the URI template. \label{SemanticTemplateURI} Also note that we do not need an ontology for services: the description is complete by the expression of its functionality.
 
 \begin{figure}[float=t!]
 \vspace{.3em}
@@ -325,7 +324,6 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 @prefix : <http://restdesc.no.de/ontology#>.
 @prefix http: <http://www.w3.org/2006/http#>.
 @prefix tmpl: <http://purl.org/restdesc/http-template#>.
-@prefix foaf: <http://xmlns.com/foaf/>.
 
 {
   ?photo :photoId ?id.
@@ -356,6 +354,8 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 
 \begin{lstlisting}[caption=RESTdesc description of photo upload,
                    label=lst:PhotoUpload, escapechar=§]
+@prefix foaf: <http://xmlns.com/foaf/>.
+
 {
   ?photo a foaf:Image.
 }
@@ -366,7 +366,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
        http:body [ tmpl:formData ("photo=" ?photo) ];
        http:resp [ tmpl:location ("/photos/" ?photoId) ].
 
-  ?photo :photoId _:photoId.
+  ?photo :photoId ?photoId.
 }.
 \end{lstlisting}
 
@@ -388,7 +388,7 @@ Contrary to its appearance, this short description conveys a vast amount of sema
 \end{lstlisting}
 
 \begin{lstlisting}[caption=RESTdesc description of face recognition,
-                   label=lst:FaceRecognition, escapechar=§, belowcaptionskip=0em]
+                   label=lst:FaceRecognition, escapechar=§, belowcaptionskip=-1em]
 {
   _:region foaf:depicts ?person;
            :regionId ?regionId;
@@ -426,20 +426,20 @@ For example, we might want to know what we can do on a server given the situatio
 \end{equation}
 It is also the precondition of photo upload (\autoref{lst:PhotoUpload}). Consequently, using modus ponens~\ref{eq:ModusPonens}, we can derive the postcondition of photo upload. Yet it does not stop there. The statements of the postcondition can also trigger other inferences. In the end, the result chain is:
 \begin{itemize}
-\item we can upload the photo, upon which it will receive an identifier
-\item we can use this identifier to receive the photo
-\item we can use this identifier to detect faces within it
-\item we can then ask the server to recognize these faces
+\item we can upload the photo, upon which it will receive an identifier;
+\item we can use this identifier to receive the photo;
+\item we can use this identifier to detect faces within it;
+\item we can then ask the server to recognize these faces.
 \end{itemize}
 In addition to \emph{what} steps we can take, the inference process also tells us \emph{how} to take this steps by listing the concrete HTTP requests.
 
 These and other examples can be verified online using the EYE Semantic Web reasoner~\cite{Euler} on the interactive RESTdesc test website$^{\ref{RESTdescWebsite}}$.
 
-An even more interesting approach is to add a goal, in addition to starting point~\ref{eq:Image}. If we indeed want to know who is depicted in the photograph, our query might~be:
+An even more interesting approach is to add a goal, in addition to a |starting point~\ref{eq:Image}. If we indeed want to know who is depicted in the photograph, our query might~be:
 \begin{equation*}
     \fontsize{7.8}{10}\texttt{<http://example.org/photo.jpg> foaf:depicts ?person.}
 \end{equation*}
-The proof of the reasoner for this query forms a list of ordered steps to obtain the desired results, again with detailed instructions on how to execute these steps. This differs from the previous output, which was just an unordered list of possible actions. Here, the result is an actual execution plan, instructing to first upload the photo, then ask for detected faces, and finally find out the associated persons.
+The proof of the reasoner for this query forms a list of ordered steps to obtain the desired results, again with detailed instructions on how to execute these steps. This differs from the previous output, which was just an unordered list of possible actions. Here, the result is an actual execution plan, instructing to first upload the photo, then ask for detected faces, and finally find out the associated persons~\cite{Verborgh:2011p4792}.
 
 It is apparent that RESTdesc descriptions provide a powerful and instant way to deal with automated interpretation and composition of different Web services.
 
@@ -462,7 +462,7 @@ In this section we will show with the help of the concrete example of a face det
 Web Service discovery can be seen as the process of locating a suitable Web service for a given task. Typically in classic WS-* architectures there are several options for this process, which can involve Web services registering themselves with a central registry (as in Section~\ref{sec:uddi} with UDDI), or Web services exposing their capabilities using the Web Service Description Language~(WSDL, \cite{WSDL1, WSDL2}). On a related note, the Web Services Inspection Language~(WSIL, \cite{WSIL}) has been proposed to list groups of Web services and their endpoints. When we say Web service discovery, we currently limit ourselves to enable discovery of Web services by following ones nose from a given start URI by resolving links and making sense of Notation3 service invocation descriptions. However, RESTdesc is a very powerful concept, as given just one starting URI, the full reasoning chain of available Web services is enabled, not constrained to Web services on the same domain.
 
 \subsection{Learning About Ones OPTIONS} \label{MainStory}
-An execution plan can be dynamically created by a user agent that is given a concrete task like ``identify all persons in a certain photo" (see~\ref{Composition}). The user agent first starts to check out its options on the Web service's base URI \url{/}, as shown in Listing~\ref{lst:BaseOPTIONS}. From there, the user agent discovers that there is a link of type ``index" to \url{/photos}, which in turn it checks its options on. As can be seen in Listing~\ref{lst:PhotosOPTIONS} (edited slightly for clearness), the user agent has indicated that it accepts responses of type ``text/n3; charset=utf-8", and therefore is given instructions that new items can be added to the index by means of a POST request. Next, the user agent uploads the photo to the server, and is notified that the photo has been stored at the location \url{/photos/1}, as stated in the Location header of the 201 Created-type response. The user agent then executes an OPTIONS call to that location in order to find out what it can do with the uploaded photo. The response contains Notation3 instructions on how to detect potentially contained faces in the photo by performing a GET request to \url{/photos/1/faces}.  Upon execution of that GET call, each of the detected faces has its own URI, for example \url{/photos/1/faces/1}, where a cropped image region of just that face is available, as can be derived from the Link header. In addition to that, a different Link header reveals that the persons behind each of the faces can be recognized by navigating to the particular person's URI, for example \url{/photos/1/persons/1}.
+An execution plan can be dynamically created by a user agent that is given a concrete task like ``identify all persons in a certain photo" (see~\autoref{Composition}). The user agent first starts to check out its options on the Web service's base URI \url{/}, as shown in Listing~\ref{lst:BaseOPTIONS}. From there, the user agent discovers that there is a link of type ``index" to \url{/photos}, which in turn it checks its options on. As can be seen in Listing~\ref{lst:PhotosOPTIONS} (edited slightly for clearness), the user agent has indicated that it accepts responses of type ``text/n3; charset=utf-8", and therefore is given instructions that new items can be added to the index by means of a POST request. Next, the user agent uploads the photo to the server, and is notified that the photo has been stored at the location \url{/photos/1}, as stated in the Location header of the 201 Created-type response. The user agent then executes an OPTIONS call to that location in order to find out what it can do with the uploaded photo. The response contains Notation3 instructions on how to detect potentially contained faces in the photo by performing a GET request to \url{/photos/1/faces}.  Upon execution of that GET call, each of the detected faces has its own URI, for example \url{/photos/1/faces/1}, where a cropped image region of just that face is available, as can be derived from the Link header. In addition to that, a different Link header reveals that the persons behind each of the faces can be recognized by navigating to the particular person's URI, for example \url{/photos/1/persons/1}.
 
 \begin{figure}[float=t!]
 \begin{lstlisting}[caption=An OPTIONS call on an API's base URI, label=lst:BaseOPTIONS, escapechar=§]
@@ -594,13 +594,13 @@ The REST practice of correctly using HTTP status codes forms the corner stone of
 %%%% Responsible: Thomas %%%%
 In this paper, we have shown a proposal for a Web service description and interaction approach for automatic Web service discovery and execution called RESTdesc. Our approach builds on top of RESTful principles and consists of a semantic mark-up model, offering a formal description of a service's functionality, with extensive flexibility, and an HTTP-based discovery method of services, both within a domain of related services, and also beyond. It is to be noted that in order for our approach to work, obeying to REST principles is essential for the APIs that RESTdesc should be applied to. We have demonstrated the feasibility and the pragmatism of our proposal with a concrete implementation. In addition to that, and unlike OWL-S, our approach is integrated in the normal Web service data flow.
 
-Future work will be to prove the applicability of the approach to a broad family of existing RESTful Web services. We are also planning to investigate ways to link to external services that not necessarily follow our approach, including multi-domain-spanning Web services. In addition to that, we want to perform an in-depth study of compatibility and exchangeability with other standards and practices (namely with WSDL, WADL, and OWL-S). Currently we are at the very beginnings of our work towards allowing for complex automated execution plan creation including the creation of automated clients against RESTdesc-described services. With this paper we have laid a humble foundation stone for semantic Web service description. Future versions of RESTdesc will most probably encourage the decoupled use of the standard, meaning that instead of relying on URI templates (which allow for a certain degree of freedom, but still introduce a form of tight coupling) we shift the URI descriptions into the Link headers, and only specify the relation of those Link headers to the result in the server response.
-
-\section*{Acknowledgements} \label{sec:acknowledgements}
-The authors wish to thank Niklas Lindstr\"om for his help with the CoIN vocabulary, Jos De Roo for his assistance with the EYE Semantic Web reasoner, and Mark Nottingham for his suggestion on HTTP header line folding.
+Future work will be to prove the applicability of the approach to a broad family of existing RESTful Web services. We are also planning to investigate ways to link to external services that not necessarily follow our approach, including multi-domain-spanning Web services. In addition to that, we want to perform an in-depth study of compatibility and exchangeability with other standards and practices (namely with WSDL, WADL, and OWL-S). Currently we are at the very beginnings of our work towards allowing for complex automated execution plan creation including the creation of automated clients against RESTdesc-described services. With this paper we have laid a humble foundation stone for semantic Web service description. Future versions of RESTdesc will most probably encourage the decoupled use of the method, meaning that instead of relying on URI templates (which allow for a certain degree of freedom, but still introduce a form of tight coupling) we shift the URI descriptions into the Link headers, and only specify the relation of those Link headers to the result in the server~response.
 
 \ifthenelse{\boolean{showauthors}}
-{Thomas Steiner is partially funded by the EU FP7 I-SEARCH project (ref. 248296).}{}
+{\section*{Acknowledgements} \label{sec:acknowledgements}
+The authors wish to thank Niklas Lindstr\"om for his help with the CoIN vocabulary, Jos De Roo for his assistance with the EYE Semantic Web reasoner, and Mark Nottingham for his suggestion on HTTP header line folding.
+
+Thomas Steiner is partially funded by the EU FP7 I-SEARCH project (ref. 248296).}{}
 
 % back to normal size Computer Modern for URLs in bibliography
 \renewcommand{\ttdefault}{cmvtt}
