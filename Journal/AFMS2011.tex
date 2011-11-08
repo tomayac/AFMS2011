@@ -47,8 +47,7 @@
 
 \begin{document}
 
-\title{Description and Interaction of RESTful Services\\ for Automated~Discovery and Execution}
-\titlerunning{Description and Interaction of RESTful Services for Automated~Discovery}
+\title{Capturing the functionality of Web services\\ with functional descriptions}
 
 \author{Ruben Verborgh \and Thomas Steiner \and Davy Van Deursen \and Jos De Roo \and Rik Van de Walle \and Joaquim Gabarr\'o Vall\'es}
 
@@ -91,6 +90,7 @@ The aim of this work is to provide a~simple, flexible, and dynamic solution to s
 The remainder of this paper is structured as follows: Section~\ref{sec:related-work} gives an overview on related work. Section~\ref{sec:restdesc-semantic-description} describes our RESTdesc approach for Semantic Web service description. Section~\ref{sec:restdesc-discovery} details how our approach can be used for automatic service discovery. Section~\ref{sec:adapting-to-change-and-errors} shows how our approach is able to adapt to change and react dynamically on errors. The paper terminates with Section~\ref{sec:conclusion-and-future-work}, which provides a conclusion and gives an outlook on future work.
 
 We have implemented a sample multimedia Web service with mock data that follows our description approach. It is available at our RESTdesc testing website\footnote{\label{RESTdescWebsite}RESTdesc testing website: \url{http://restdesc.no.de/}.}.
+Additional RESTdesc information can also be found on the official website \url{http://restdesc.org/}.
 
 \section{Related Work} \label{sec:related-work}
 \subsection{Web Service Description Language}
@@ -214,7 +214,7 @@ Since it is difficult to reason about such an abstract skeleton, we will provide
 We will now formulate the logic basis of RESTdesc, by applying it to the aforementioned example.
 Let us first revise what we actually want to express. In the example, an informal expression for photo retrieval could be:
 \begin{multline}\label{eq:Informal}
-    \textit{I can retrieve a photo by going to \Verb!/photos/!}\\
+    \textit{I can retrieve a photo by going to \Verb!/photos/!}\\[-.3em]
     \textit{and appending its identifier.}
 \end{multline}
 
@@ -225,8 +225,8 @@ Let us first revise what we actually want to express. In the example, an informa
 \end{multline}
 This is straightforward to represent in RDF:
 \begin{multline}\label{eq:NaiveRdf}
-    \fontsize{8}{10}\texttt{:request :uri ("/photos/" :id);} \\[-.5em]
-    \fontsize{8}{10}\texttt{:response [ :represents [:photoId :id] ].}\makebox[3cm]{}
+    \fontsize{9}{11}\texttt{:request :uri ("/photos/" :id);} \\[-.5em]
+    \fontsize{9}{11}\texttt{:response [ :represents [:photoId :id] ].}\makebox[1.22cm]{}
 \end{multline}
 Upon closer inspection, it is clear that the formalization~\ref{eq:NaiveFormal}---and thus its RDF counterpart~\ref{eq:NaiveRdf}---does not contain all the semantics of the informal expression~\ref{eq:Informal}. While~\ref{eq:Informal} implies~\ref{eq:NaiveFormal}, the~opposite implication \mbox{$\ref{eq:NaiveFormal} \Rightarrow \ref{eq:Informal}$} is broken, and thus the equivalence does not hold. Indeed, fragment \ref{eq:NaiveRdf} states that there exists \emph{one specific} request which returns the photograph with the identifier specified in its URI. It does however not convey the intention of~\ref{eq:Informal} that \emph{all} requests with this URI structure behave the same way. This is a problem of existential~$\exists$ versus universal~$\forall$ quantification, which has important consequences that should be dealt with formally.
 
@@ -569,7 +569,7 @@ The central idea is that the client uses descriptions in a dynamic way: \emph{``
 \subsection{Adaptive error handling}
 WSDL and \owls\ provided very detailed ways to specify error conditions and faults. This does not correspond to the human strategy when browsing the Web: we just try, and if something does not work out as expected, we continue, possibly aided by hyperlinks on last visited pages. The underlying rationale is simple: if we had to anticipate \emph{every} possible error (page not found, irrelevant information, network failure, \ldots), we might as well give up before we start. Consequently, our approach is to handle errors dynamically as they arise\footnote{This approach works well with actions that do not involve commitment, i.e. information exchange, which we primarily focus on. Data fetching and even state-changing actions, such as image upload, are thus perfectly possible. In case of irreversible actions with binding consequences (e.g., reservations), special care might be necessary. But then again, not all errors can be foreseen, which renders this topic inherently difficult and not generally solvable.}, guided by the service itself where applicable.
 
-An important benefit of this pragmatic error handling is that all causes can be dealt with in an uniform manner. Clients assume services will handle their request as described. If an exception or error should occur, it is detected and remedied, irrespective of whether it could have been expected. For example, a face detection request can fail for numerous reasons: the image does not exist or has been deleted, no faces detected in the image, the server is unavailable or crashes, \ldots\ The central idea is that there is no point in anticipating foreseeable errors, since errors can always occur. A~RESTdesc description details necessary preconditions for executing a request, but it does not strive to handle exceptional situations because it can never cover all of them.
+An important benefit of this pragmatic error handling is that all causes can be dealt with in an uniform manner. Clients assume services will handle their request as described. If an exception or error should occur, it is detected and remedied, irrespective of whether it could have been expected. For example, a face detection request can fail for numerous reasons: the image does not exist or has been deleted, no faces detected in the image, the server is unavailable or crashes\ldots\ The central idea is that there is no point in anticipating foreseeable errors, since errors can always occur. A~RESTdesc description details necessary preconditions for executing a request, but it does not strive to handle exceptional situations because it can never cover all of them.
 
 The REST practice of correctly using HTTP status codes forms the corner stone of error detection. They can precisely identify the source of the problem (client, request, or server), its temporal scope (temporary or permanent), and offer additional information (even in case of success). What we suggest is that the service should supply hyperlinks that can help the client to remedy the problem, similar to service discovery in \autoref{sec:restdesc-discovery}. For example, depending on the error, the server could list the photo upload API (image does not exist), or an alternative API with a different face detection algorithm (no faces detected), or even another server (server unavailable) in its responses.
 
